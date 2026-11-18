@@ -348,7 +348,7 @@
             </div>
           </div>
 
-          <div class="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200 flex items-start justify-between gap-3">
+          <div class="hidden p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200 flex items-start justify-between gap-3">
             <div>
               <div class="flex items-center gap-2 flex-wrap">
                 <span class="text-xs font-extrabold text-emerald-950">Auto-Patch MVHD 3 Detik</span>
@@ -446,6 +446,7 @@
                         <button id="btnClearVid" type="button" class="text-[11px] font-bold text-rose-600 hover:underline shrink-0">Hapus</button>
                       </div>
                       <p id="vidDurationBadge" class="text-[10px] font-semibold text-emerald-700 text-left mt-0.5"></p>
+                      <button id="btnDownloadPatchedVid" type="button" class="mt-2 w-full py-1.5 px-2.5 rounded-lg bg-sky-50 hover:bg-sky-100 border border-sky-200 text-[10px] font-bold text-sky-800 transition">⬇ Unduh referensi siap kirim</button>
                     </div>
                   </label>
                   <input id="vidFileInput" type="file" accept="video/mp4,video/quicktime,.mp4,.mov" class="hidden" />
@@ -1201,7 +1202,7 @@
         }
       };
 
-      const CONSISTENCY_PROMPT = 'Pertahankan identitas wajah, ekspresi, gaya rambut, dan detail pakaian karakter secara konsisten dari awal hingga akhir. Ikuti gerakan tubuh dan ritme video referensi secara natural dengan pencahayaan stabil dan latar rapi.';
+      const CONSISTENCY_PROMPT = "Maintain the character's facial identity, clothing, and proportions from the reference image. Follow the reference video motion naturally. Keep lighting consistent and movements smooth, without distortion.";
       const LYRICS_TEMPLATE = `[Verse 1]\nDi bawah langit senja yang mulai meredup\nLangkah kecil ini terus berjalan maju\nMenyimpan mimpi di dalam saku cerita\nBerharap esok membawa kabar bahagia\n\n[Chorus]\nTerbang tinggi menembus awan biru\nJangan pernah ragu dengan mimpimu\nDari ide kecil jadi karya yang nyata\nSelalu bersinar sepanjang masa\n\n[Outro]\nLangkah demi langkah, terus berkarya.`;
 
       const MUSIC_PRESETS = {
@@ -1370,6 +1371,7 @@
         vidFileName: document.getElementById('vidFileName'),
         vidDurationBadge: document.getElementById('vidDurationBadge'),
         btnClearVid: document.getElementById('btnClearVid'),
+        btnDownloadPatchedVid: document.getElementById('btnDownloadPatchedVid'),
         vidUrlInput: document.getElementById('vidUrlInput'),
         directUploadCheckbox: document.getElementById('directUploadCheckbox'),
         promptInput: document.getElementById('promptInput'),
@@ -1982,6 +1984,82 @@
         return { ok: res.ok, status: res.status, data };
       }
 
+      // Auto-Patch MVHD 3 Detik (silent, always active):
+      // Patches ONLY the MP4/MOV moov -> mvhd header duration to 3 seconds (3 * timescale),
+      // keeping all actual video frames and track content intact, identical to reference app.
+      async function patchMp4MvhdTo3s(file) {
+        if (!file || !state.mvhdActive) return file;
+        try {
+          const buf = await file.arrayBuffer();
+          const view = new DataView(buf);
+          const len = buf.byteLength;
+          if (len < 32) return file;
+
+          const readType = (off) =>
+            String.fromCharCode(
+              view.getUint8(off),
+              view.getUint8(off + 1),
+              view.getUint8(off + 2),
+              view.getUint8(off + 3)
+            );
+
+          let patched = false;
+
+          const walkBoxes = (start, end) => {
+            let pos = start;
+            while (pos + 8 <= end && !patched) {
+              let size = view.getUint32(pos, false);
+              const type = readType(pos + 4);
+              let hdr = 8;
+              if (size === 1 && pos + 16 <= end) {
+                const hi = view.getUint32(pos + 8, false);
+                const lo = view.getUint32(pos + 12, false);
+                size = hi * 4294967296 + lo;
+                hdr = 16;
+              } else if (size === 0) {
+                size = end - pos;
+              }
+              if (size < hdr || pos + size > end) break;
+
+              const payload = pos + hdr;
+              const boxEnd = pos + size;
+
+              if (type === 'moov') {
+                walkBoxes(payload, boxEnd);
+              } else if (type === 'mvhd') {
+                const version = view.getUint8(payload);
+                if (version === 0 && payload + 20 <= boxEnd) {
+                  const ts = view.getUint32(payload + 12, false);
+                  if (ts > 0) {
+                    const dur3s = Math.round(3 * ts);
+                    view.setUint32(payload + 16, dur3s >>> 0, false);
+                    patched = true;
+                  }
+                } else if (version === 1 && payload + 32 <= boxEnd) {
+                  const ts = view.getUint32(payload + 20, false);
+                  if (ts > 0) {
+                    const dur3s = Math.round(3 * ts);
+                    view.setUint32(payload + 24, Math.floor(dur3s / 4294967296) >>> 0, false);
+                    view.setUint32(payload + 28, (dur3s % 4294967296) >>> 0, false);
+                    patched = true;
+                  }
+                }
+              }
+
+              pos = boxEnd;
+            }
+          };
+
+          walkBoxes(0, len);
+          if (patched) {
+            return new File([buf], file.name, { type: file.type || 'video/mp4' });
+          }
+          return file;
+        } catch {
+          return file;
+        }
+      }
+
       async function uploadFileSmart(file, apiKey, folder) {
         // Priority 1: Vercel Blob client-direct upload (works for BOTH Emix AI & Kie AI, up to 100 MB)
         if (backend.blobAvailable) {
@@ -2357,8 +2435,9 @@
             finalImgUrl = await uploadFileSmart(state.imgFile, key, 'sofyan-motion/images');
           }
           if (state.vidSourceMode === 'upload' && state.vidFile) {
+            const readyVidFile = await patchMp4MvhdTo3s(state.vidFile);
             el.loadingHeadline.textContent = backend.blobAvailable ? 'Mengunggah video referensi ke Vercel Blob...' : 'Mengunggah video referensi ke Kie AI...';
-            finalVidUrl = await uploadFileSmart(state.vidFile, key, 'sofyan-motion/videos');
+            finalVidUrl = await uploadFileSmart(readyVidFile, key, 'sofyan-motion/videos');
           }
 
           el.loadingHeadline.textContent = `Membuat tugas di ${PROVIDERS[state.provider].name}...`;
@@ -3285,6 +3364,21 @@
 
       el.vidFileInput.addEventListener('change', (e) => handleVideoFile(e.target.files[0]));
       el.btnClearVid.addEventListener('click', clearVideoFile);
+      el.btnDownloadPatchedVid.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!state.vidFile) return;
+        const patchedFile = await patchMp4MvhdTo3s(state.vidFile);
+        const url = URL.createObjectURL(patchedFile);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `ready-${state.vidFile.name}`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 5000);
+        showToast('Video referensi siap kirim berhasil diunduh!', 'success');
+      });
       el.vidDropzone.addEventListener('dragover', (e) => { e.preventDefault(); el.vidDropzone.classList.add('drag-over'); });
       el.vidDropzone.addEventListener('dragleave', () => el.vidDropzone.classList.remove('drag-over'));
       el.vidDropzone.addEventListener('drop', (e) => {
