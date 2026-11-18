@@ -1,0 +1,3371 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alat Motion Control, Lagu &amp; Edit Gambar Ajaib by Sofyan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <style>
+    :root {
+      --bg-top: #e8f3ff;
+      --bg-mid: #f4f9ff;
+      --bg-bot: #dff0ff;
+      --navy: #0f294a;
+      --muted: #4b6584;
+      --card-border: #cfe4ff;
+      --accent-blue: #0ea5e9;
+      --accent-blue-dark: #0284c7;
+      --accent-amber: #f59e0b;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(160deg, var(--bg-top) 0%, var(--bg-mid) 45%, var(--bg-bot) 100%);
+      color: var(--navy);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 12px 32px -12px rgba(14, 116, 200, 0.14);
+    }
+    .ajaib-underline {
+      position: relative;
+      display: inline-block;
+    }
+    .ajaib-underline::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -4px;
+      height: 8px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 12' preserveAspectRatio='none'%3E%3Cpath d='M3 9 Q 80 1 157 8' stroke='%23f59e0b' stroke-width='4.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+    }
+    .dropzone {
+      transition: all 0.2s ease;
+    }
+    .dropzone.drag-over {
+      border-color: #0284c7;
+      background-color: #e0f2fe;
+      transform: scale(1.005);
+    }
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+    .mascot-float {
+      animation: floatSlow 3.6s ease-in-out infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.82); }
+    }
+    .dot-pulse {
+      animation: pulseDot 1.6s ease-in-out infinite;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #bfd9f8;
+      border-radius: 9999px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-sky-200 selection:text-sky-950">
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="fixed top-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-[calc(100%-2rem)] pointer-events-none"></div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-30 backdrop-blur-md bg-white/80 border-b border-sky-100">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+      <!-- Left Brand -->
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-400 to-blue-600 p-1 shadow-sm flex items-center justify-center shrink-0">
+          <svg viewBox="0 0 64 64" class="w-full h-full" aria-hidden="true">
+            <circle cx="32" cy="33" r="26" fill="#0ea5e9" stroke="#ffffff" stroke-width="2.5"/>
+            <ellipse cx="32" cy="39" rx="20" ry="17" fill="#ffffff"/>
+            <ellipse cx="25" cy="24" rx="5.5" ry="7" fill="#ffffff" stroke="#0f294a" stroke-width="1.8"/>
+            <ellipse cx="39" cy="24" rx="5.5" ry="7" fill="#ffffff" stroke="#0f294a" stroke-width="1.8"/>
+            <circle cx="26.5" cy="25" r="2.2" fill="#0f294a"/>
+            <circle cx="37.5" cy="25" r="2.2" fill="#0f294a"/>
+            <circle cx="32" cy="31" r="3.6" fill="#ef4444"/>
+            <line x1="32" y1="34.5" x2="32" y2="43" stroke="#0f294a" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M21 41 Q32 50 43 41" fill="none" stroke="#0f294a" stroke-width="2" stroke-linecap="round"/>
+            <rect x="18" y="51" width="28" height="4.5" rx="2.2" fill="#ef4444"/>
+            <circle cx="32" cy="54" r="3.8" fill="#fbbf24" stroke="#92400e" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="font-extrabold text-sm sm:text-base tracking-tight text-[#0f294a] truncate">Alat Motion Control Ajaib</span>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider bg-emerald-100 text-emerald-700 border border-emerald-200">PUBLIK</span>
+          </div>
+          <p class="text-[11px] font-medium text-slate-500 -mt-0.5">by Sofyan · Video, Lagu &amp; Edit Gambar AI</p>
+        </div>
+      </div>
+
+      <!-- Right Nav -->
+      <div class="flex items-center gap-2 sm:gap-4 shrink-0">
+        <button id="btnOpenGuideHeader" type="button" class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-sky-600 transition px-2 py-1.5 rounded-lg hover:bg-sky-50">
+          Panduan singkat
+        </button>
+        <a id="headerDocsLink" href="https://docs.emix.ai/" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-slate-600 hover:text-sky-600 transition px-2 py-1.5 rounded-lg hover:bg-sky-50">
+          Dokumentasi API <span aria-hidden="true">↗</span>
+        </a>
+        <div title="Sofyan" class="w-8 h-8 rounded-full bg-gradient-to-br from-sky-500 to-blue-700 text-white font-bold text-xs flex items-center justify-center shadow-sm ring-2 ring-sky-100 select-none">
+          S
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 pt-6 pb-12">
+
+    <!-- Hero Section -->
+    <section class="relative mb-5 rounded-3xl bg-white/75 border border-sky-200/80 p-5 sm:p-7 shadow-sm overflow-hidden">
+      <div class="absolute -right-12 -top-12 w-48 h-48 rounded-full bg-sky-200/40 blur-2xl pointer-events-none"></div>
+      <div class="absolute -left-10 -bottom-10 w-40 h-40 rounded-full bg-amber-100/50 blur-2xl pointer-events-none"></div>
+
+      <div class="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="max-w-2xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-[11px] font-bold tracking-wider text-sky-700 mb-3">
+            <span class="w-2 h-2 rounded-full bg-sky-500"></span>
+            KANTONG KREASI SOFYAN — KLING · SUNO · SEEDREAM 5.0
+          </div>
+          <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#0f294a] leading-tight">
+            Alat Motion Control <span class="ajaib-underline">Ajaib.</span>
+          </h1>
+          <p class="mt-2.5 text-sm sm:text-base text-[#4b6584] font-medium">
+            by Sofyan · Bikin video motion control, lagu AI Suno, dan edit gambar Seedream 5.0 cukup dengan 1 API key!
+          </p>
+        </div>
+
+        <!-- Mascot & Speech Bubble -->
+        <div class="flex items-center gap-3 self-start md:self-center shrink-0">
+          <div class="relative bg-white border border-sky-200 rounded-2xl rounded-br-sm px-3.5 py-2 shadow-sm">
+            <p id="mascotBubbleText" class="text-xs font-bold text-sky-800 whitespace-nowrap">Yuk, bikin gerakan ajaib!</p>
+            <span class="absolute -right-1.5 bottom-2.5 w-3 h-3 bg-white border-r border-b border-sky-200 rotate-[-45deg]"></span>
+          </div>
+          <div class="w-16 h-16 sm:w-20 sm:h-20 mascot-float shrink-0 drop-shadow-md">
+            <svg viewBox="0 0 80 80" class="w-full h-full" aria-label="Maskot Biru Sofyan">
+              <circle cx="40" cy="40" r="34" fill="#0ea5e9" stroke="#0284c7" stroke-width="2.5"/>
+              <ellipse cx="40" cy="46" rx="26" ry="22" fill="#ffffff"/>
+              <ellipse cx="32" cy="29" rx="7" ry="9" fill="#ffffff" stroke="#0f294a" stroke-width="2"/>
+              <ellipse cx="48" cy="29" rx="7" ry="9" fill="#ffffff" stroke="#0f294a" stroke-width="2"/>
+              <circle cx="34" cy="30" r="2.8" fill="#0f294a"/>
+              <circle cx="46" cy="30" r="2.8" fill="#0f294a"/>
+              <circle cx="35" cy="29" r="0.9" fill="#ffffff"/>
+              <circle cx="47" cy="29" r="0.9" fill="#ffffff"/>
+              <circle cx="40" cy="37" r="4.5" fill="#ef4444"/>
+              <circle cx="38.7" cy="35.7" r="1.2" fill="#fca5a5"/>
+              <line x1="40" y1="41.5" x2="40" y2="52" stroke="#0f294a" stroke-width="2" stroke-linecap="round"/>
+              <path d="M25 49 Q40 61 55 49" fill="none" stroke="#0f294a" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="16" y1="39" x2="27" y2="41" stroke="#0f294a" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="15" y1="45" x2="27" y2="45" stroke="#0f294a" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="17" y1="51" x2="27" y2="49" stroke="#0f294a" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="64" y1="39" x2="53" y2="41" stroke="#0f294a" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="65" y1="45" x2="53" y2="45" stroke="#0f294a" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="63" y1="51" x2="53" y2="49" stroke="#0f294a" stroke-width="1.6" stroke-linecap="round"/>
+              <rect x="21" y="63" width="38" height="6" rx="3" fill="#ef4444"/>
+              <circle cx="40" cy="67" r="5" fill="#fbbf24" stroke="#92400e" stroke-width="1.4"/>
+              <line x1="36.5" y1="67" x2="43.5" y2="67" stroke="#92400e" stroke-width="1.2"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Studio Feature Switcher (3-in-1: Video, Lagu, Edit Gambar) -->
+    <div class="mb-6 flex justify-center">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5 p-1.5 rounded-2xl bg-white/90 border border-sky-200 shadow-sm w-full max-w-3xl">
+        <button id="studioTabVideo" type="button" data-studio="video" class="studio-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-sm">
+          <span>🎬</span>
+          <span>Motion Control Video</span>
+        </button>
+        <button id="studioTabMusic" type="button" data-studio="music" class="studio-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center justify-center gap-2 text-slate-600 hover:text-sky-800 hover:bg-sky-50">
+          <span>🎵</span>
+          <span>Bikin Lagu AI (Suno)</span>
+        </button>
+        <button id="studioTabImage" type="button" data-studio="image" class="studio-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center justify-center gap-2 text-slate-600 hover:text-sky-800 hover:bg-sky-50">
+          <span>🖼️</span>
+          <span>Edit Gambar (Seedream 5.0)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main 2-Column Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- LEFT PANEL -->
+      <section class="lg:col-span-7 glass-card rounded-3xl p-5 sm:p-6">
+        <div class="flex items-center justify-between gap-3 pb-4 border-b border-sky-100">
+          <div>
+            <h2 id="leftPanelTitle" class="text-lg font-extrabold text-[#0f294a]">Buat video baru</h2>
+            <p id="leftPanelSubtitle" class="text-xs text-[#4b6584] mt-0.5">Hubungkan API key, unggah media, lalu generate video motion control.</p>
+          </div>
+          <button id="btnResetForm" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-sky-100 hover:text-sky-800 transition">
+            <span>↺</span> Reset
+          </button>
+        </div>
+
+        <!-- SHARED SECTION 01: Penyedia API, API Key & Sisa Kredit -->
+        <div class="mt-5">
+          <div class="flex items-center gap-2 mb-3.5">
+            <span class="inline-flex items-center justify-center w-6 h-6 rounded-lg bg-sky-100 text-sky-700 font-extrabold text-[11px]">01</span>
+            <h3 class="text-xs font-extrabold tracking-wider uppercase text-sky-900">PENGATURAN GENERASI</h3>
+          </div>
+
+          <!-- Penyedia API -->
+          <div class="mb-4">
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-bold text-[#0f294a]">Penyedia API</label>
+              <span class="text-[11px] text-slate-500">1 API key untuk Video, Lagu &amp; Edit Gambar.</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2 p-1 rounded-2xl bg-sky-50 border border-sky-100">
+              <button id="tabProviderEmix" type="button" data-provider="emix" class="provider-tab py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 bg-white text-sky-700 shadow-sm border border-sky-200">
+                <span class="w-2 h-2 rounded-full bg-sky-500"></span> Emix AI
+              </button>
+              <button id="tabProviderKie" type="button" data-provider="kie" class="provider-tab py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:text-sky-700">
+                <span class="w-2 h-2 rounded-full bg-slate-300"></span> Kie AI
+              </button>
+            </div>
+          </div>
+
+          <!-- API Key Input -->
+          <div class="mb-4 p-4 rounded-2xl bg-slate-50/90 border border-sky-100">
+            <div class="flex items-center justify-between gap-2 mb-2 flex-wrap">
+              <label id="apiKeyLabel" for="apiKeyInput" class="text-[11px] font-extrabold tracking-wider uppercase text-sky-900">EMIX AI API KEY</label>
+              <a id="getApiKeyLink" href="https://emix.ai/api-key" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold text-sky-600 hover:text-sky-800 hover:underline">
+                Dapatkan API key ↗
+              </a>
+            </div>
+            <div class="relative flex items-center">
+              <input id="apiKeyInput" type="password" autocomplete="off" spellcheck="false" placeholder="Tempel API key Emix AI di sini" class="w-full rounded-xl border border-sky-200 bg-white pl-3.5 pr-11 py-2.5 text-sm text-[#0f294a] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition" />
+              <button id="btnToggleApiKey" type="button" aria-label="Tampilkan atau sembunyikan API key" class="absolute right-2.5 p-1.5 rounded-lg text-slate-400 hover:text-sky-700 hover:bg-sky-50 transition">
+                <svg id="eyeIconOpen" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg id="eyeIconClosed" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
+                </svg>
+              </button>
+            </div>
+            <div class="mt-2.5 flex items-center justify-between gap-2 flex-wrap">
+              <div id="apiStatusBadge" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+                <span>Belum diperiksa</span>
+              </div>
+              <button id="btnConnectApi" type="button" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 active:scale-[0.99] transition shadow-sm">
+                <span>⚡</span> Hubungkan API key
+              </button>
+            </div>
+          </div>
+
+          <!-- Kotak Sisa Kredit -->
+          <div class="mb-4 p-3.5 rounded-2xl bg-gradient-to-r from-sky-50 to-blue-50/70 border border-sky-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2 text-xs font-bold text-sky-900">
+                <span>Sisa kredit</span>
+                <span class="text-sky-300">|</span>
+                <span id="creditProviderName" class="text-sky-700">Emix AI</span>
+              </div>
+              <div class="mt-1 flex items-baseline gap-2">
+                <span id="creditValue" class="text-lg font-extrabold text-[#0f294a]">—</span>
+                <span id="creditStatusText" class="text-[11px] text-slate-500">Hubungkan API key untuk melihat saldo</span>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <button id="btnRefreshCredits" type="button" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-white border border-sky-200 text-xs font-bold text-sky-700 hover:bg-sky-100 transition">
+                <span>↻</span> Perbarui
+              </button>
+              <button id="btnOpenUploadGuide" type="button" class="text-[11px] font-semibold text-sky-700 hover:text-sky-900 hover:underline px-1.5 py-1">
+                ↗ Panduan URL hasil upload penyedia API
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- STUDIO A: MOTION CONTROL VIDEO CONTROLS                  -->
+        <!-- ======================================================== -->
+        <div id="videoStudioControls">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-3.5">
+            <div>
+              <label for="modelSelect" class="block text-xs font-bold text-[#0f294a] mb-1.5">Model AI</label>
+              <select id="modelSelect" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2.5 text-sm font-semibold text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400">
+                <option value="kling-3.0/motion-control">Kling 3.0 Motion Control</option>
+                <option value="kling-2.6/motion-control">Kling 2.6 Motion Control</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#0f294a] mb-1.5">Kualitas / Resolusi Video</label>
+              <div class="grid grid-cols-2 gap-2">
+                <button id="btnMode720" type="button" data-mode="720p" class="mode-btn py-2.5 px-3 rounded-xl text-xs font-extrabold border-2 border-sky-500 bg-sky-50 text-sky-800 transition">
+                  720p STD
+                </button>
+                <button id="btnMode1080" type="button" data-mode="1080p" class="mode-btn py-2.5 px-3 rounded-xl text-xs font-extrabold border border-sky-200 bg-white text-slate-600 hover:border-sky-300 transition">
+                  1080p PRO
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-4">
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label for="orientationSelect" class="text-xs font-bold text-[#0f294a]">Orientasi Karakter</label>
+                <button id="btnOrientationInfo" type="button" class="text-sky-600 hover:text-sky-800 text-xs font-bold px-1 rounded" title="Info Orientasi Karakter">ⓘ</button>
+              </div>
+              <select id="orientationSelect" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2.5 text-sm font-semibold text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400">
+                <option value="video">Ikuti video · maks. 30 detik</option>
+                <option value="image">Ikuti gambar · maks. 10 detik</option>
+              </select>
+              <p id="orientationTooltip" class="hidden mt-1.5 text-[11px] bg-sky-50 border border-sky-200 rounded-lg p-2 text-sky-900">
+                <strong>Ikuti video</strong> cocok untuk gerakan kompleks &amp; durasi hingga 30 detik. <strong>Ikuti gambar</strong> menjaga posisi awal foto karakter (maks. 10 detik).
+              </p>
+            </div>
+            <div>
+              <label for="backgroundSelect" class="block text-xs font-bold text-[#0f294a] mb-1.5">Background</label>
+              <select id="backgroundSelect" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2.5 text-sm font-semibold text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400">
+                <option value="input_image">Dari gambar karakter</option>
+                <option value="input_video">Dari video referensi</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200 flex items-start justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-xs font-extrabold text-emerald-950">Auto-Patch MVHD 3 Detik</span>
+                <span id="mvhdBadge" class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-200 text-emerald-800">AKTIF</span>
+              </div>
+              <p class="text-[11px] text-emerald-900/80 mt-1">
+                Video &gt;30 detik otomatis dipotong. Video ≤30 detik tetap sesuai aslinya.
+              </p>
+              <p class="text-[11px] text-slate-500 mt-1">
+                Untuk generate, penyedia API mendukung 3–30 detik, rasio 2:5–5:2, sisi terpendek &gt;340 px.
+              </p>
+            </div>
+            <label class="inline-flex items-center cursor-pointer shrink-0 mt-0.5">
+              <input id="mvhdToggle" type="checkbox" checked class="sr-only peer" />
+              <div class="w-10 h-5 bg-slate-300 peer-checked:bg-emerald-500 rounded-full relative transition after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:w-4 after:h-4 after:rounded-full after:transition peer-checked:after:translate-x-5"></div>
+            </label>
+          </div>
+
+          <!-- 02 MEDIA REFERENSI -->
+          <div class="mt-6 pt-5 border-t border-sky-100">
+            <div class="flex items-center gap-2 mb-3.5">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded-lg bg-sky-100 text-sky-700 font-extrabold text-[11px]">02</span>
+              <h3 class="text-xs font-extrabold tracking-wider uppercase text-sky-900">MEDIA REFERENSI</h3>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Gambar Karakter -->
+              <div class="p-3.5 rounded-2xl bg-slate-50/80 border border-sky-100 flex flex-col">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <span class="text-xs font-extrabold text-[#0f294a]">Gambar karakter <span class="text-rose-500">*</span></span>
+                  <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-50 text-rose-600">Wajib</span>
+                </div>
+                <p class="text-[11px] text-slate-500 mb-2.5">Tampilan karakter yang ingin dihidupkan</p>
+
+                <div class="grid grid-cols-2 gap-1 p-1 rounded-xl bg-sky-100/60 mb-2.5">
+                  <button id="imgTabUpload" type="button" class="img-mode-tab py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition">Upload file</button>
+                  <button id="imgTabUrl" type="button" class="img-mode-tab py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition">Gunakan URL ↗</button>
+                </div>
+
+                <div id="imgUploadBox" class="flex-1 flex flex-col">
+                  <label id="imgDropzone" for="imgFileInput" class="dropzone flex-1 min-h-[138px] rounded-xl border-2 border-dashed border-sky-200 bg-white hover:border-sky-400 cursor-pointer flex flex-col items-center justify-center p-3 text-center">
+                    <div id="imgEmptyState" class="flex flex-col items-center">
+                      <div class="w-9 h-9 rounded-full bg-sky-50 text-sky-600 flex items-center justify-center mb-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                      </div>
+                      <span class="text-xs font-bold text-sky-800">Klik atau seret gambar</span>
+                      <span class="text-[10px] text-slate-400 mt-1">JPG, PNG · Maks. 10 MB</span>
+                    </div>
+                    <div id="imgPreviewState" class="hidden w-full">
+                      <img id="imgPreviewThumb" src="" alt="Pratinjau gambar karakter" class="w-full h-28 object-cover rounded-lg border border-sky-100" />
+                      <div class="mt-2 flex items-center justify-between gap-2 text-left">
+                        <span id="imgFileName" class="text-[11px] font-semibold text-slate-700 truncate"></span>
+                        <button id="btnClearImg" type="button" class="text-[11px] font-bold text-rose-600 hover:underline shrink-0">Hapus</button>
+                      </div>
+                    </div>
+                  </label>
+                  <input id="imgFileInput" type="file" accept="image/jpeg,image/png,image/jpg" class="hidden" />
+                </div>
+
+                <div id="imgUrlBox" class="hidden flex-1 flex flex-col gap-2">
+                  <input id="imgUrlInput" type="url" placeholder="https://contoh.com/karakter.png" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2 text-xs text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400" />
+                  <div id="imgUrlPreviewWrap" class="hidden rounded-xl overflow-hidden border border-sky-100 bg-white">
+                    <img id="imgUrlPreview" src="" alt="Preview URL karakter" class="w-full h-24 object-cover" />
+                  </div>
+                  <p class="text-[10px] text-slate-400">Pastikan tautan gambar publik &amp; langsung mengarah ke file JPG/PNG.</p>
+                </div>
+              </div>
+
+              <!-- Referensi Gerakan -->
+              <div class="p-3.5 rounded-2xl bg-slate-50/80 border border-sky-100 flex flex-col">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <span class="text-xs font-extrabold text-[#0f294a]">Referensi gerakan <span class="text-rose-500">*</span></span>
+                  <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-50 text-rose-600">Wajib</span>
+                </div>
+                <p class="text-[11px] text-slate-500 mb-2.5">Gerakan yang akan diikuti karakter</p>
+
+                <div class="grid grid-cols-2 gap-1 p-1 rounded-xl bg-sky-100/60 mb-2.5">
+                  <button id="vidTabUpload" type="button" class="vid-mode-tab py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition">Upload file</button>
+                  <button id="vidTabUrl" type="button" class="vid-mode-tab py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition">Gunakan URL ↗</button>
+                </div>
+
+                <div id="vidUploadBox" class="flex-1 flex flex-col">
+                  <label id="vidDropzone" for="vidFileInput" class="dropzone flex-1 min-h-[138px] rounded-xl border-2 border-dashed border-sky-200 bg-white hover:border-sky-400 cursor-pointer flex flex-col items-center justify-center p-3 text-center">
+                    <div id="vidEmptyState" class="flex flex-col items-center">
+                      <div class="w-9 h-9 rounded-full bg-sky-50 text-sky-600 flex items-center justify-center mb-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                      </div>
+                      <span class="text-xs font-bold text-sky-800">Klik atau seret video</span>
+                      <span class="text-[10px] text-slate-400 mt-1">MP4, MOV · Auto-potong &gt;30 detik · Maks. 100 MB</span>
+                    </div>
+                    <div id="vidPreviewState" class="hidden w-full">
+                      <video id="vidPreviewPlayer" muted playsinline controls class="w-full h-28 object-cover rounded-lg border border-sky-100 bg-slate-900"></video>
+                      <div class="mt-2 flex items-center justify-between gap-2 text-left">
+                        <span id="vidFileName" class="text-[11px] font-semibold text-slate-700 truncate"></span>
+                        <button id="btnClearVid" type="button" class="text-[11px] font-bold text-rose-600 hover:underline shrink-0">Hapus</button>
+                      </div>
+                      <p id="vidDurationBadge" class="text-[10px] font-semibold text-emerald-700 text-left mt-0.5"></p>
+                    </div>
+                  </label>
+                  <input id="vidFileInput" type="file" accept="video/mp4,video/quicktime,.mp4,.mov" class="hidden" />
+                </div>
+
+                <div id="vidUrlBox" class="hidden flex-1 flex flex-col gap-2">
+                  <input id="vidUrlInput" type="url" placeholder="https://contoh.com/gerakan.mp4" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2 text-xs text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400" />
+                  <p class="text-[10px] text-slate-400">Pastikan tautan video publik (MP4/MOV, durasi 3–30 detik).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3.5 p-3 rounded-xl bg-sky-50/70 border border-sky-100">
+              <label class="flex items-start gap-2.5 cursor-pointer">
+                <input id="directUploadCheckbox" type="checkbox" checked class="mt-0.5 w-4 h-4 rounded border-sky-300 text-sky-600 focus:ring-sky-500" />
+                <div>
+                  <span class="text-xs font-bold text-[#0f294a]">Unggah langsung · tautan sementara 1 jam</span>
+                  <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
+                    File lokal diunggah otomatis melalui endpoint upload penyedia (tersedia langsung di Kie AI) atau gunakan tab URL publik untuk Emix AI. API key tidak pernah disimpan di browser.
+                  </p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Prompt Tambahan -->
+          <div class="mt-5 pt-5 border-t border-sky-100">
+            <div class="flex items-center justify-between gap-2 mb-1.5 flex-wrap">
+              <label for="promptInput" class="text-xs font-bold text-[#0f294a]">
+                Prompt Tambahan <span class="font-normal text-slate-400">(Opsional)</span>
+              </label>
+              <div class="flex items-center gap-2">
+                <button id="btnConsistencyPrompt" type="button" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-50 border border-amber-200 text-[11px] font-bold text-amber-800 hover:bg-amber-100 transition">
+                  <span>✨</span> Gunakan prompt konsistensi
+                </button>
+                <span id="promptCounter" class="text-[11px] font-semibold text-slate-400 tabular-nums">0/2500</span>
+              </div>
+            </div>
+            <textarea id="promptInput" rows="3" maxlength="2500" placeholder="Contoh: Pertahankan wajah dan pakaian karakter. Ikuti gerakan dengan natural, pencahayaan konsisten." class="w-full rounded-2xl border border-sky-200 bg-white p-3.5 text-sm text-[#0f294a] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 resize-y"></textarea>
+          </div>
+
+          <div class="mt-5">
+            <button id="btnGenerateVideo" type="button" class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 active:scale-[0.995] text-white font-extrabold text-sm sm:text-base shadow-lg shadow-sky-500/25 transition flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+              <span>✨</span>
+              <span id="btnGenerateText">Generate video</span>
+              <span>→</span>
+            </button>
+            <p class="mt-2 text-center text-[11px] text-slate-500">
+              ⚡ Menggunakan kredit akun penyedia API kamu · Biaya mengikuti model &amp; durasi
+            </p>
+          </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- STUDIO B: BIKIN LAGU AI (SUNO) CONTROLS                  -->
+        <!-- ======================================================== -->
+        <div id="musicStudioControls" class="hidden">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-3.5">
+            <div>
+              <label for="musicModelSelect" class="block text-xs font-bold text-[#0f294a] mb-1.5">Model Lagu AI (Suno)</label>
+              <select id="musicModelSelect" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2.5 text-sm font-semibold text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400">
+                <option value="V6">Suno V6 (Terbaru · Kualitas Tinggi)</option>
+                <option value="V6_MINI">Suno V6 Mini (Cepat)</option>
+                <option value="V6_WILD">Suno V6 Wild (Eksperimental)</option>
+                <option value="V5_5">Suno V5.5</option>
+                <option value="V5">Suno V5</option>
+                <option value="V4_5PLUS">Suno V4.5 Plus</option>
+                <option value="V4_5">Suno V4.5</option>
+                <option value="V4">Suno V4</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#0f294a] mb-1.5">Tipe Audio</label>
+              <div class="grid grid-cols-2 gap-2">
+                <button id="btnMusicVocal" type="button" data-inst="false" class="py-2.5 px-3 rounded-xl text-xs font-extrabold border-2 border-sky-500 bg-sky-50 text-sky-800 transition">
+                  🎤 Dengan Vokal
+                </button>
+                <button id="btnMusicInst" type="button" data-inst="true" class="py-2.5 px-3 rounded-xl text-xs font-extrabold border border-sky-200 bg-white text-slate-600 hover:border-sky-300 transition">
+                  🎹 Instrumental
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-xs font-bold text-[#0f294a] mb-1.5">Mode Pembuatan Lagu</label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5 p-1 rounded-2xl bg-sky-50 border border-sky-100">
+              <button id="btnMusicModeSimple" type="button" data-music-mode="simple" class="py-2 px-2.5 rounded-xl text-[11px] font-bold bg-white text-sky-800 shadow-sm border border-sky-200 transition">
+                ✨ Mode Simpel (Lirik Otomatis)
+              </button>
+              <button id="btnMusicModeCustom" type="button" data-music-mode="custom" class="py-2 px-2.5 rounded-xl text-[11px] font-bold text-slate-600 hover:text-sky-800 transition">
+                ✍️ Mode Kustom (Tulis Lirik Sendiri)
+              </button>
+              <button id="btnMusicModeCover" type="button" data-music-mode="cover" class="py-2 px-2.5 rounded-xl text-[11px] font-bold text-slate-600 hover:text-sky-800 transition">
+                🎧 Cover Lagu (Upload Audio)
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-5 border-t border-sky-100">
+            <div class="flex items-center justify-between gap-2 mb-3.5 flex-wrap">
+              <div class="flex items-center gap-2">
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-lg bg-sky-100 text-sky-700 font-extrabold text-[11px]">02</span>
+                <h3 class="text-xs font-extrabold tracking-wider uppercase text-sky-900">KONSEP &amp; LIRIK LAGU</h3>
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" data-preset="pop" class="music-preset-btn px-2 py-1 rounded-lg bg-sky-50 border border-sky-200 text-[10px] font-bold text-sky-800 hover:bg-sky-100 transition">Pop Galau</button>
+                <button type="button" data-preset="koplo" class="music-preset-btn px-2 py-1 rounded-lg bg-sky-50 border border-sky-200 text-[10px] font-bold text-sky-800 hover:bg-sky-100 transition">Dangdut Koplo</button>
+                <button type="button" data-preset="lofi" class="music-preset-btn px-2 py-1 rounded-lg bg-sky-50 border border-sky-200 text-[10px] font-bold text-sky-800 hover:bg-sky-100 transition">Lo-Fi Santai</button>
+                <button type="button" data-preset="drama" class="music-preset-btn px-2 py-1 rounded-lg bg-sky-50 border border-sky-200 text-[10px] font-bold text-sky-800 hover:bg-sky-100 transition">OST Mini Drama</button>
+              </div>
+            </div>
+
+            <div id="musicSimpleFields" class="space-y-3.5">
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label for="musicSimplePrompt" class="text-xs font-bold text-[#0f294a]">Ide / Deskripsi Lagu <span class="text-rose-500">*</span></label>
+                  <span id="musicSimpleCounter" class="text-[11px] font-semibold text-slate-400 tabular-nums">0/3000</span>
+                </div>
+                <textarea id="musicSimplePrompt" rows="4" maxlength="3000" placeholder="Contoh: Lagu pop akustik bahasa Indonesia yang hangat tentang perjuangan merantau dan rindu pulang kampung, tempo santai dengan petikan gitar lembut." class="w-full rounded-2xl border border-sky-200 bg-white p-3.5 text-sm text-[#0f294a] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 resize-y"></textarea>
+              </div>
+              <div>
+                <label for="musicSimpleStyle" class="block text-xs font-bold text-[#0f294a] mb-1">Gaya Musik Tambahan <span class="font-normal text-slate-400">(Opsional)</span></label>
+                <input id="musicSimpleStyle" type="text" maxlength="1000" placeholder="Contoh: Indonesian Acoustic Pop, Warm Vocals, Soft Guitar" class="w-full rounded-xl border border-sky-200 bg-white px-3.5 py-2.5 text-xs sm:text-sm text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400" />
+              </div>
+            </div>
+
+            <div id="musicCustomFields" class="hidden space-y-3.5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div>
+                  <div class="flex items-center justify-between mb-1">
+                    <label for="musicTitleInput" class="text-xs font-bold text-[#0f294a]">Judul Lagu <span class="text-rose-500">*</span></label>
+                    <span id="musicTitleCounter" class="text-[10px] font-semibold text-slate-400">0/80</span>
+                  </div>
+                  <input id="musicTitleInput" type="text" maxlength="80" placeholder="Contoh: Langit Senja di Desa" class="w-full rounded-xl border border-sky-200 bg-white px-3.5 py-2.5 text-sm text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400" />
+                </div>
+                <div>
+                  <label for="musicVocalGender" class="block text-xs font-bold text-[#0f294a] mb-1">Gender Vokal</label>
+                  <select id="musicVocalGender" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2.5 text-sm font-semibold text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400">
+                    <option value="">Otomatis</option>
+                    <option value="m">Pria (Male)</option>
+                    <option value="f">Wanita (Female)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label for="musicStyleInput" class="text-xs font-bold text-[#0f294a]">Gaya / Genre Musik <span class="text-rose-500">*</span></label>
+                  <span id="musicStyleCounter" class="text-[10px] font-semibold text-slate-400">0/1000</span>
+                </div>
+                <input id="musicStyleInput" type="text" maxlength="1000" placeholder="Contoh: Pop Indonesia, Acoustic Guitar, Emotional Piano, 95 BPM" class="w-full rounded-xl border border-sky-200 bg-white px-3.5 py-2.5 text-sm text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400" />
+              </div>
+
+              <div id="musicLyricsWrap">
+                <div class="flex items-center justify-between gap-2 mb-1 flex-wrap">
+                  <label for="musicLyricsInput" class="text-xs font-bold text-[#0f294a]">Lirik Lagu</label>
+                  <div class="flex items-center gap-2">
+                    <button id="btnInsertLyricsTemplate" type="button" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-50 border border-amber-200 text-[11px] font-bold text-amber-800 hover:bg-amber-100 transition">
+                      <span>✨</span> Contoh struktur lirik
+                    </button>
+                    <span id="musicLyricsCounter" class="text-[10px] font-semibold text-slate-400 tabular-nums">0/5000</span>
+                  </div>
+                </div>
+                <textarea id="musicLyricsInput" rows="5" maxlength="5000" placeholder="[Verse 1]&#10;Tulis bait pertama lagumu di sini...&#10;&#10;[Chorus]&#10;Tulis bagian reff yang mudah diingat..." class="w-full rounded-2xl border border-sky-200 bg-white p-3.5 text-sm text-[#0f294a] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 resize-y"></textarea>
+              </div>
+
+              <div>
+                <label for="musicNegativeTags" class="block text-xs font-bold text-[#0f294a] mb-1">Tag Negatif / Hindari Gaya <span class="font-normal text-slate-400">(Opsional)</span></label>
+                <input id="musicNegativeTags" type="text" placeholder="Contoh: heavy metal, scream, distortion" class="w-full rounded-xl border border-sky-200 bg-white px-3.5 py-2 text-xs text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400" />
+              </div>
+            </div>
+
+            <!-- Cover Lagu (Upload Audio) Fields -->
+            <div id="musicCoverFields" class="hidden space-y-3.5">
+              <div class="p-3.5 rounded-2xl bg-slate-50/80 border border-sky-100">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <span class="text-xs font-extrabold text-[#0f294a]">Audio sumber untuk di-cover <span class="text-rose-500">*</span></span>
+                  <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-50 text-rose-600">Wajib</span>
+                </div>
+                <p class="text-[11px] text-slate-500 mb-2.5">AI akan mempertahankan melodi utama dan mengaransemen ulang sesuai gaya baru</p>
+
+                <div class="grid grid-cols-2 gap-1 p-1 rounded-xl bg-sky-100/60 mb-2.5">
+                  <button id="coverAudioTabUpload" type="button" class="py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition">Upload audio</button>
+                  <button id="coverAudioTabUrl" type="button" class="py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition">Gunakan URL ↗</button>
+                </div>
+
+                <div id="coverAudioUploadBox">
+                  <label id="coverAudioDropzone" for="coverAudioFileInput" class="dropzone min-h-[112px] rounded-xl border-2 border-dashed border-sky-200 bg-white hover:border-sky-400 cursor-pointer flex flex-col items-center justify-center p-3 text-center">
+                    <div id="coverAudioEmptyState" class="flex flex-col items-center">
+                      <div class="w-9 h-9 rounded-full bg-sky-50 text-sky-600 flex items-center justify-center mb-1.5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+                      </div>
+                      <span class="text-xs font-bold text-sky-800">Klik atau seret file audio lagu</span>
+                      <span class="text-[10px] text-slate-400 mt-0.5">MP3, WAV, M4A · Maks. 50 MB (Upload langsung via Kie AI)</span>
+                    </div>
+                    <div id="coverAudioPreviewState" class="hidden w-full">
+                      <audio id="coverAudioPreviewPlayer" controls class="w-full h-9 mb-2"></audio>
+                      <div class="flex items-center justify-between gap-2 text-left">
+                        <span id="coverAudioFileName" class="text-[11px] font-semibold text-slate-700 truncate"></span>
+                        <button id="btnClearCoverAudio" type="button" class="text-[11px] font-bold text-rose-600 hover:underline shrink-0">Hapus</button>
+                      </div>
+                    </div>
+                  </label>
+                  <input id="coverAudioFileInput" type="file" accept="audio/mpeg,audio/wav,audio/mp4,audio/x-m4a,.mp3,.wav,.m4a" class="hidden" />
+                </div>
+
+                <div id="coverAudioUrlBox" class="hidden space-y-2">
+                  <input id="coverAudioUrlInput" type="url" placeholder="https://contoh.com/lagu-sumber.mp3" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2 text-xs text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400" />
+                  <p class="text-[10px] text-slate-400">Masukkan tautan publik langsung ke file MP3/WAV (wajib pakai URL untuk Emix AI).</p>
+                </div>
+
+                <p class="mt-2 text-[10px] text-amber-700 bg-amber-50 border border-amber-200/80 rounded-lg px-2.5 py-1.5">
+                  Catatan: Fitur cover audio tersedia resmi di Kie AI (<code>ai-music-api/upload-and-cover-audio</code>). Audio komersial berhak cipta dapat terkena filter moderasi Suno.
+                </p>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div>
+                  <div class="flex items-center justify-between mb-1">
+                    <label for="coverTitleInput" class="text-xs font-bold text-[#0f294a]">Judul Lagu Cover <span class="font-normal text-slate-400">(Opsional)</span></label>
+                    <span id="coverTitleCounter" class="text-[10px] font-semibold text-slate-400">0/80</span>
+                  </div>
+                  <input id="coverTitleInput" type="text" maxlength="80" placeholder="Contoh: Versi Akustik Cafe" class="w-full rounded-xl border border-sky-200 bg-white px-3.5 py-2.5 text-sm text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400" />
+                </div>
+                <div>
+                  <label for="coverVocalGender" class="block text-xs font-bold text-[#0f294a] mb-1">Gender Vokal Cover</label>
+                  <select id="coverVocalGender" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2.5 text-sm font-semibold text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400">
+                    <option value="">Otomatis</option>
+                    <option value="m">Pria (Male)</option>
+                    <option value="f">Wanita (Female)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-1 flex-wrap">
+                  <label for="coverStyleInput" class="text-xs font-bold text-[#0f294a]">Gaya / Aransemen Cover Baru <span class="text-rose-500">*</span></label>
+                  <span id="coverStyleCounter" class="text-[10px] font-semibold text-slate-400">0/1000</span>
+                </div>
+                <div class="flex flex-wrap gap-1.5 mb-2">
+                  <button type="button" data-cover-preset="akustik" class="cover-preset-btn px-2 py-1 rounded-lg bg-sky-50 border border-sky-200 text-[10px] font-bold text-sky-800 hover:bg-sky-100 transition">✨ Akustik Cafe</button>
+                  <button type="button" data-cover-preset="koplo" class="cover-preset-btn px-2 py-1 rounded-lg bg-sky-50 border border-sky-200 text-[10px] font-bold text-sky-800 hover:bg-sky-100 transition">✨ Dangdut Koplo</button>
+                  <button type="button" data-cover-preset="piano" class="cover-preset-btn px-2 py-1 rounded-lg bg-sky-50 border border-sky-200 text-[10px] font-bold text-sky-800 hover:bg-sky-100 transition">✨ Piano Balada</button>
+                  <button type="button" data-cover-preset="lofi" class="cover-preset-btn px-2 py-1 rounded-lg bg-sky-50 border border-sky-200 text-[10px] font-bold text-sky-800 hover:bg-sky-100 transition">✨ Lo-Fi Chill</button>
+                </div>
+                <input id="coverStyleInput" type="text" maxlength="1000" placeholder="Contoh: Warm Acoustic Cafe Cover, Soft Guitar, Smooth Emotional Vocals" class="w-full rounded-xl border border-sky-200 bg-white px-3.5 py-2.5 text-sm text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400" />
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 p-3 rounded-2xl bg-sky-50/70 border border-sky-100">
+                <div>
+                  <div class="flex items-center justify-between text-[11px] font-bold text-[#0f294a] mb-1">
+                    <label for="coverAudioWeight">Kemiripan Melodi Asli</label>
+                    <span id="coverAudioWeightVal" class="text-sky-700 tabular-nums">0.65</span>
+                  </div>
+                  <input id="coverAudioWeight" type="range" min="0" max="1" step="0.05" value="0.65" class="w-full accent-sky-600 cursor-pointer" />
+                </div>
+                <div>
+                  <div class="flex items-center justify-between text-[11px] font-bold text-[#0f294a] mb-1">
+                    <label for="coverStyleWeight">Kekuatan Gaya Baru</label>
+                    <span id="coverStyleWeightVal" class="text-sky-700 tabular-nums">0.65</span>
+                  </div>
+                  <input id="coverStyleWeight" type="range" min="0" max="1" step="0.05" value="0.65" class="w-full accent-sky-600 cursor-pointer" />
+                </div>
+              </div>
+
+              <div id="coverLyricsWrap">
+                <div class="flex items-center justify-between mb-1">
+                  <label for="coverLyricsInput" class="text-xs font-bold text-[#0f294a]">Lirik Cover <span class="font-normal text-slate-400">(Opsional · isi jika ingin ubah/arahkan lirik)</span></label>
+                  <span id="coverLyricsCounter" class="text-[10px] font-semibold text-slate-400 tabular-nums">0/5000</span>
+                </div>
+                <textarea id="coverLyricsInput" rows="3" maxlength="5000" placeholder="Kosongkan untuk mengikuti vokal/melodi asli, atau tulis lirik baru di sini..." class="w-full rounded-2xl border border-sky-200 bg-white p-3 text-sm text-[#0f294a] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 resize-y"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5">
+            <button id="btnGenerateMusic" type="button" class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 active:scale-[0.995] text-white font-extrabold text-sm sm:text-base shadow-lg shadow-sky-500/25 transition flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+              <span>🎵</span>
+              <span id="btnGenerateMusicText">Generate lagu AI</span>
+              <span>→</span>
+            </button>
+            <p class="mt-2 text-center text-[11px] text-slate-500">
+              ⚡ Menggunakan API key &amp; kredit penyedia yang sama · Menghasilkan 2 variasi lagu sekaligus
+            </p>
+          </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- STUDIO C: EDIT GAMBAR (SEEDREAM 5.0) CONTROLS            -->
+        <!-- ======================================================== -->
+        <div id="imageStudioControls" class="hidden">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-3.5">
+            <div>
+              <label for="seedreamModelSelect" class="block text-xs font-bold text-[#0f294a] mb-1.5">Model Seedream 5.0</label>
+              <select id="seedreamModelSelect" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2.5 text-sm font-semibold text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400">
+                <option value="seedream/5-pro-image-to-image">Seedream 5.0 Pro (Edit Presisi)</option>
+                <option value="seedream/5-flash-image-to-image">Seedream 5.0 Flash (Cepat &amp; Hemat)</option>
+                <option value="seedream/5-lite-image-to-image">Seedream 5.0 Lite (Ringan)</option>
+              </select>
+            </div>
+            <div>
+              <label for="seedreamAspectSelect" class="block text-xs font-bold text-[#0f294a] mb-1.5">Rasio Aspek Output</label>
+              <select id="seedreamAspectSelect" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2.5 text-sm font-semibold text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400">
+                <option value="1:1">1:1 (Persegi · Feed / Katalog)</option>
+                <option value="9:16">9:16 (Vertikal · TikTok / Shorts)</option>
+                <option value="16:9">16:9 (Lanskap · YouTube Thumbnail)</option>
+                <option value="3:4">3:4 (Potret)</option>
+                <option value="4:3">4:3 (Klasik)</option>
+                <option value="2:3">2:3 (Poster)</option>
+                <option value="3:2">3:2 (Foto DSLR)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-4">
+            <div>
+              <label class="block text-xs font-bold text-[#0f294a] mb-1.5">Kualitas Output</label>
+              <div class="grid grid-cols-2 gap-2">
+                <button id="btnSeedreamBasic" type="button" data-quality="basic" class="py-2.5 px-3 rounded-xl text-xs font-extrabold border-2 border-sky-500 bg-sky-50 text-sky-800 transition">
+                  Basic (2K)
+                </button>
+                <button id="btnSeedreamHigh" type="button" data-quality="high" class="py-2.5 px-3 rounded-xl text-xs font-extrabold border border-sky-200 bg-white text-slate-600 hover:border-sky-300 transition">
+                  High (Ultra)
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#0f294a] mb-1.5">Format Gambar</label>
+              <div class="grid grid-cols-2 gap-2">
+                <button id="btnSeedreamPng" type="button" data-fmt="png" class="py-2.5 px-3 rounded-xl text-xs font-extrabold border-2 border-sky-500 bg-sky-50 text-sky-800 transition">
+                  PNG
+                </button>
+                <button id="btnSeedreamJpg" type="button" data-fmt="jpeg" class="py-2.5 px-3 rounded-xl text-xs font-extrabold border border-sky-200 bg-white text-slate-600 hover:border-sky-300 transition">
+                  JPEG
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 02 GAMBAR SUMBER & INSTRUKSI EDIT -->
+          <div class="mt-5 pt-5 border-t border-sky-100">
+            <div class="flex items-center gap-2 mb-3.5">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded-lg bg-sky-100 text-sky-700 font-extrabold text-[11px]">02</span>
+              <h3 class="text-xs font-extrabold tracking-wider uppercase text-sky-900">GAMBAR SUMBER &amp; INSTRUKSI EDIT</h3>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-slate-50/80 border border-sky-100 mb-3.5">
+              <div class="flex items-center justify-between gap-2 mb-1">
+                <span class="text-xs font-extrabold text-[#0f294a]">Gambar utama yang akan diedit <span class="text-rose-500">*</span></span>
+                <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-50 text-rose-600">Wajib</span>
+              </div>
+              <p class="text-[11px] text-slate-500 mb-2.5">Foto produk, karakter, atau adegan yang ingin diubah oleh Seedream 5.0</p>
+
+              <div class="grid grid-cols-2 gap-1 p-1 rounded-xl bg-sky-100/60 mb-2.5">
+                <button id="editImgTabUpload" type="button" class="py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition">Upload file</button>
+                <button id="editImgTabUrl" type="button" class="py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition">Gunakan URL ↗</button>
+              </div>
+
+              <div id="editImgUploadBox">
+                <label id="editImgDropzone" for="editImgFileInput" class="dropzone min-h-[130px] rounded-xl border-2 border-dashed border-sky-200 bg-white hover:border-sky-400 cursor-pointer flex flex-col items-center justify-center p-3 text-center">
+                  <div id="editImgEmptyState" class="flex flex-col items-center">
+                    <div class="w-9 h-9 rounded-full bg-sky-50 text-sky-600 flex items-center justify-center mb-2">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    </div>
+                    <span class="text-xs font-bold text-sky-800">Klik atau seret gambar untuk diedit</span>
+                    <span class="text-[10px] text-slate-400 mt-1">JPG, PNG, WEBP · Maks. 10 MB (Upload langsung via Kie AI)</span>
+                  </div>
+                  <div id="editImgPreviewState" class="hidden w-full">
+                    <img id="editImgPreviewThumb" src="" alt="Preview gambar yang akan diedit" class="w-full h-36 object-contain rounded-lg bg-slate-100 border border-sky-100" />
+                    <div class="mt-2 flex items-center justify-between gap-2 text-left">
+                      <span id="editImgFileName" class="text-[11px] font-semibold text-slate-700 truncate"></span>
+                      <button id="btnClearEditImg" type="button" class="text-[11px] font-bold text-rose-600 hover:underline shrink-0">Hapus</button>
+                    </div>
+                  </div>
+                </label>
+                <input id="editImgFileInput" type="file" accept="image/jpeg,image/png,image/webp,image/jpg" class="hidden" />
+              </div>
+
+              <div id="editImgUrlBox" class="hidden space-y-2">
+                <input id="editImgUrlInput" type="url" placeholder="https://contoh.com/foto-asli.png" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2 text-xs text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400" />
+                <div id="editImgUrlPreviewWrap" class="hidden rounded-xl overflow-hidden border border-sky-100 bg-white">
+                  <img id="editImgUrlPreview" src="" alt="Preview URL gambar edit" class="w-full h-32 object-contain bg-slate-100" />
+                </div>
+              </div>
+
+              <div class="mt-3">
+                <label for="editRefUrlInput" class="block text-[11px] font-bold text-[#0f294a] mb-1">URL Gambar Referensi Tambahan <span class="font-normal text-slate-400">(Opsional · Multi-image fusion)</span></label>
+                <input id="editRefUrlInput" type="url" placeholder="https://contoh.com/baju-atau-latar.png (opsional)" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2 text-xs text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400" />
+              </div>
+            </div>
+
+            <!-- Prompt Instruksi Edit -->
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-1.5 flex-wrap">
+                <label for="seedreamPromptInput" class="text-xs font-bold text-[#0f294a]">Instruksi Edit Gambar <span class="text-rose-500">*</span></label>
+                <span id="seedreamPromptCounter" class="text-[11px] font-semibold text-slate-400 tabular-nums">0/2995</span>
+              </div>
+              <div class="flex flex-wrap gap-1.5 mb-2">
+                <button type="button" data-img-preset="studio" class="img-preset-btn px-2 py-1 rounded-lg bg-sky-50 border border-sky-200 text-[10px] font-bold text-sky-800 hover:bg-sky-100 transition">✨ Latar Studio Bersih</button>
+                <button type="button" data-img-preset="affiliate" class="img-preset-btn px-2 py-1 rounded-lg bg-sky-50 border border-sky-200 text-[10px] font-bold text-sky-800 hover:bg-sky-100 transition">✨ Foto Produk Affiliate</button>
+                <button type="button" data-img-preset="outfit" class="img-preset-btn px-2 py-1 rounded-lg bg-sky-50 border border-sky-200 text-[10px] font-bold text-sky-800 hover:bg-sky-100 transition">✨ Ganti Outfit Rapi</button>
+                <button type="button" data-img-preset="cinematic" class="img-preset-btn px-2 py-1 rounded-lg bg-sky-50 border border-sky-200 text-[10px] font-bold text-sky-800 hover:bg-sky-100 transition">✨ Cahaya Sinematik HD</button>
+              </div>
+              <textarea id="seedreamPromptInput" rows="3" maxlength="2995" placeholder="Contoh: Pertahankan wajah dan pose subjek. Ganti latar belakang menjadi kafe estetik hangat dengan pencahayaan golden hour yang realistis." class="w-full rounded-2xl border border-sky-200 bg-white p-3.5 text-sm text-[#0f294a] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-400 resize-y"></textarea>
+            </div>
+          </div>
+
+          <div class="mt-5">
+            <button id="btnGenerateImage" type="button" class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-sky-500 to-teal-600 hover:from-sky-600 hover:to-teal-700 active:scale-[0.995] text-white font-extrabold text-sm sm:text-base shadow-lg shadow-sky-500/25 transition flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+              <span>🖼️</span>
+              <span id="btnGenerateImageText">Edit gambar Seedream 5.0</span>
+              <span>→</span>
+            </button>
+            <p class="mt-2 text-center text-[11px] text-slate-500">
+              ⚡ Menggunakan API key &amp; kredit penyedia yang sama · Hasil gambar bisa langsung dikirim ke Motion Control
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT PANEL: Hasil & Riwayat -->
+      <aside class="lg:col-span-5 flex flex-col gap-5">
+        <div class="glass-card rounded-3xl p-5 sm:p-6">
+          <div class="flex items-center justify-between gap-2 pb-4 border-b border-sky-100 flex-wrap">
+            <div class="inline-flex p-1 rounded-xl bg-sky-50 border border-sky-100">
+              <button id="tabOutputResult" type="button" class="right-tab px-3.5 py-1.5 rounded-lg text-xs font-bold bg-white text-sky-800 shadow-sm transition">
+                Hasil video
+              </button>
+              <button id="tabOutputHistory" type="button" class="right-tab px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-sky-800 transition flex items-center gap-1.5">
+                Riwayat
+                <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full text-[10px] bg-sky-100 text-sky-700">0</span>
+              </button>
+            </div>
+            <div id="rightStatusPill" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-700 border border-emerald-200">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span>SIAP</span>
+            </div>
+          </div>
+
+          <!-- TAB 1: HASIL -->
+          <div id="panelResultView" class="mt-4">
+            <div class="relative rounded-2xl bg-gradient-to-br from-[#0f294a] via-[#133863] to-[#0c4a6e] text-white p-5 min-h-[300px] flex flex-col justify-between overflow-hidden border border-sky-900/20">
+              <div class="flex items-center justify-between text-[10px] font-bold tracking-widest uppercase text-sky-200/80">
+                <span>OUTPUT PREVIEW</span>
+                <span id="previewQualityBadge" class="px-2 py-0.5 rounded-full bg-white/10 border border-white/15 text-sky-100">MP4 · 720p</span>
+              </div>
+
+              <!-- State A: Idle -->
+              <div id="previewIdle" class="my-6 flex flex-col items-center text-center">
+                <div id="previewIdleTag" class="px-3 py-1 rounded-full bg-sky-400/20 border border-sky-300/30 text-[10px] font-extrabold tracking-widest text-sky-200 mb-3">
+                  CHARACTER &amp; MOTION
+                </div>
+                <div class="w-16 h-16 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center mb-3 backdrop-blur-sm">
+                  <svg id="idleIconVideo" class="w-8 h-8 text-sky-300" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <svg id="idleIconMusic" class="w-8 h-8 text-amber-300 hidden" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+                  </svg>
+                  <svg id="idleIconImage" class="w-8 h-8 text-teal-300 hidden" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                  </svg>
+                </div>
+                <h4 id="previewIdleTitle" class="text-base font-extrabold text-white">Di sini gerakan dimulai.</h4>
+                <p id="previewIdleDesc" class="mt-1.5 text-xs text-sky-100/80 max-w-xs leading-relaxed">
+                  Gabungkan gambar karakter dan video referensi. Hasil kreasimu akan muncul di sini.
+                </p>
+              </div>
+
+              <!-- State B: Processing -->
+              <div id="previewLoading" class="hidden my-6 flex flex-col items-center text-center">
+                <div class="w-14 h-14 rounded-full border-4 border-sky-300/30 border-t-sky-300 animate-spin mb-4"></div>
+                <h4 id="loadingHeadline" class="text-sm sm:text-base font-extrabold text-white">Memproses di server AI...</h4>
+                <p id="loadingSubtext" class="mt-1 text-xs text-sky-200/85">Status: menunggu antrean</p>
+                <div class="mt-3 px-3 py-1.5 rounded-xl bg-white/10 border border-white/15 text-[11px] font-mono text-sky-100 flex items-center gap-2 max-w-full">
+                  <span id="activeTaskIdText" class="truncate">Task ID: —</span>
+                  <button id="btnCopyActiveTaskId" type="button" class="text-amber-300 hover:text-amber-200 font-sans font-bold shrink-0">Salin</button>
+                </div>
+                <div class="mt-3 flex items-center gap-2">
+                  <button id="btnPollNow" type="button" class="px-3 py-1.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-xs font-bold text-white transition">↻ Cek status sekarang</button>
+                  <button id="btnStopPolling" type="button" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-sky-100 transition">Hentikan pantau</button>
+                </div>
+              </div>
+
+              <!-- State C1: Completed Video -->
+              <div id="previewDone" class="hidden my-3 flex flex-col gap-3">
+                <video id="resultVideoPlayer" controls autoplay loop playsinline class="w-full rounded-xl bg-black max-h-72 border border-white/15"></video>
+                <div class="flex flex-wrap items-center gap-2">
+                  <a id="btnDownloadVideo" href="#" download="motion-control-sofyan.mp4" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-xs font-extrabold transition">
+                    ⬇ Unduh MP4
+                  </a>
+                  <button id="btnCopyVideoUrl" type="button" class="px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs font-bold transition">
+                    Salin URL
+                  </button>
+                </div>
+                <p id="doneTaskIdMeta" class="text-[10px] text-sky-200/80 font-mono truncate"></p>
+              </div>
+
+              <!-- State C2: Completed Audio / Songs -->
+              <div id="previewDoneMusic" class="hidden my-3 flex flex-col gap-3">
+                <div id="musicTracksContainer" class="space-y-3 max-h-72 overflow-y-auto custom-scroll pr-1"></div>
+                <p id="doneMusicTaskIdMeta" class="text-[10px] text-sky-200/80 font-mono truncate"></p>
+              </div>
+
+              <!-- State C3: Completed Edited Image -->
+              <div id="previewDoneImage" class="hidden my-3 flex flex-col gap-3">
+                <img id="resultImagePreview" src="" alt="Hasil edit gambar Seedream 5.0" class="w-full rounded-xl bg-slate-900 max-h-72 object-contain border border-white/15" />
+                <div class="flex flex-wrap items-center gap-2">
+                  <a id="btnDownloadImage" href="#" download="seedream-edit-sofyan.png" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-xs font-extrabold transition">
+                    ⬇ Unduh Gambar
+                  </a>
+                  <button id="btnCopyImageUrl" type="button" class="px-3 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs font-bold transition">
+                    Salin URL
+                  </button>
+                </div>
+                <button id="btnSendImageToMotion" type="button" class="w-full py-2 px-3 rounded-xl bg-sky-500/30 hover:bg-sky-500/45 border border-sky-300/40 text-sky-100 text-xs font-extrabold transition">
+                  🎬 Pakai gambar ini di Motion Control →
+                </button>
+                <p id="doneImageTaskIdMeta" class="text-[10px] text-sky-200/80 font-mono truncate"></p>
+              </div>
+
+              <!-- State D: Error -->
+              <div id="previewError" class="hidden my-6 flex flex-col items-center text-center">
+                <div class="w-12 h-12 rounded-2xl bg-rose-500/20 border border-rose-400/40 text-rose-200 flex items-center justify-center mb-3 text-xl">!</div>
+                <h4 class="text-sm font-extrabold text-rose-100">Gagal memproses tugas</h4>
+                <p id="errorDetailText" class="mt-1.5 text-xs text-rose-100/85 max-w-xs leading-relaxed break-words"></p>
+                <button id="btnDismissError" type="button" class="mt-3 px-3.5 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 text-xs font-bold text-white transition">Kembali</button>
+              </div>
+
+              <div class="flex items-center justify-between text-[10px] font-bold tracking-widest uppercase text-sky-200/60">
+                <span>YOUR NEXT CREATION</span>
+                <span>BY SOFYAN</span>
+              </div>
+            </div>
+
+            <!-- Active Config Summary -->
+            <div class="mt-4 grid grid-cols-3 gap-2">
+              <div class="p-2.5 rounded-xl bg-sky-50/80 border border-sky-100">
+                <div id="summaryLabel1" class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">MODEL</div>
+                <div id="summaryModel" class="text-xs font-extrabold text-[#0f294a] mt-0.5 truncate">Kling 3.0</div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-sky-50/80 border border-sky-100">
+                <div id="summaryLabel2" class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">KUALITAS</div>
+                <div id="summaryQuality" class="text-xs font-extrabold text-[#0f294a] mt-0.5 truncate">720p STD</div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-sky-50/80 border border-sky-100">
+                <div id="summaryLabel3" class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">ORIENTASI</div>
+                <div id="summaryOrientation" class="text-xs font-extrabold text-[#0f294a] mt-0.5 truncate">Ikuti video</div>
+              </div>
+            </div>
+
+            <!-- 3-Step Process Indicator -->
+            <div class="mt-4 grid grid-cols-3 gap-2 pt-3 border-t border-sky-100">
+              <div id="stepIndicator1" class="flex items-center gap-2 p-2 rounded-xl bg-sky-50 border border-sky-200">
+                <span class="w-5 h-5 rounded-full bg-sky-600 text-white text-[10px] font-extrabold flex items-center justify-center shrink-0">1</span>
+                <span id="stepLabel1" class="text-xs font-bold text-sky-900">Media</span>
+              </div>
+              <div id="stepIndicator2" class="flex items-center gap-2 p-2 rounded-xl bg-slate-50 border border-slate-200/70">
+                <span class="w-5 h-5 rounded-full bg-slate-300 text-slate-700 text-[10px] font-extrabold flex items-center justify-center shrink-0">2</span>
+                <span class="text-xs font-bold text-slate-500">Proses</span>
+              </div>
+              <div id="stepIndicator3" class="flex items-center gap-2 p-2 rounded-xl bg-slate-50 border border-slate-200/70">
+                <span class="w-5 h-5 rounded-full bg-slate-300 text-slate-700 text-[10px] font-extrabold flex items-center justify-center shrink-0">3</span>
+                <span class="text-xs font-bold text-slate-500">Unduh</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: RIWAYAT -->
+          <div id="panelHistoryView" class="hidden mt-4">
+            <div class="p-3.5 rounded-2xl bg-sky-50/80 border border-sky-100 mb-4">
+              <label for="manualTaskIdInput" class="block text-xs font-extrabold text-[#0f294a] mb-1">
+                Sudah punya Task ID dari penyedia API?
+              </label>
+              <div class="flex items-center gap-2">
+                <input id="manualTaskIdInput" type="text" placeholder="Tempel Task ID (Video / Lagu / Gambar)" class="flex-1 rounded-xl border border-sky-200 bg-white px-3 py-2 text-xs text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400" />
+                <button id="btnCheckManualTask" type="button" aria-label="Cek Task ID" class="px-3.5 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-extrabold transition shrink-0">
+                  →
+                </button>
+              </div>
+              <p class="mt-1.5 text-[10px] text-slate-500">
+                Gunakan API key dari akun yang membuat tugas.
+              </p>
+            </div>
+
+            <div class="flex items-center justify-between mb-2.5">
+              <h4 class="text-xs font-extrabold text-[#0f294a]">Kreasi terakhir</h4>
+              <button id="btnClearHistory" type="button" class="text-[11px] font-bold text-rose-600 hover:underline hidden">Hapus semua</button>
+            </div>
+            <div id="historyList" class="space-y-2.5 max-h-80 overflow-y-auto custom-scroll pr-1"></div>
+          </div>
+        </div>
+
+        <!-- Tips Box (Yellow) -->
+        <div class="rounded-3xl bg-amber-50/90 border border-amber-200 p-5 shadow-sm">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-xl bg-amber-200/80 text-amber-800 flex items-center justify-center shrink-0 text-sm font-extrabold">
+              💡
+            </div>
+            <div class="min-w-0">
+              <h4 id="tipsHeadline" class="text-xs sm:text-sm font-extrabold text-amber-950">Referensi bagus, hasil lebih maksimal.</h4>
+              <p id="tipsBody" class="mt-1 text-xs text-amber-900/85 leading-relaxed">
+                Pilih foto dengan wajah &amp; tubuh jelas, hindari banyak orang dalam satu frame, gerakan terlalu cepat, atau objek yang menutupi wajah karakter.
+              </p>
+              <div class="mt-2.5 flex items-center justify-between gap-2 flex-wrap">
+                <button id="btnOpenGuideTips" type="button" class="text-xs font-extrabold text-amber-800 hover:text-amber-950 hover:underline">
+                  Lihat panduan →
+                </button>
+                <span class="text-[10px] text-amber-800/75">Generasi diproses oleh penyedia yang dipilih · Unduh hasil selagi tautan aktif</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-sky-200/70 bg-white/70 backdrop-blur-sm">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5">
+        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-sky-400 to-blue-600 p-1 flex items-center justify-center shrink-0">
+          <svg viewBox="0 0 64 64" class="w-full h-full" aria-hidden="true">
+            <circle cx="32" cy="33" r="26" fill="#0ea5e9" stroke="#ffffff" stroke-width="2.5"/>
+            <ellipse cx="32" cy="39" rx="20" ry="17" fill="#ffffff"/>
+            <circle cx="26.5" cy="25" r="2.6" fill="#0f294a"/>
+            <circle cx="37.5" cy="25" r="2.6" fill="#0f294a"/>
+            <circle cx="32" cy="31" r="3.6" fill="#ef4444"/>
+            <path d="M21 41 Q32 50 43 41" fill="none" stroke="#0f294a" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <p class="text-xs font-extrabold text-[#0f294a]">Alat Motion Control Ajaib by Sofyan</p>
+          <p class="text-[11px] text-slate-500">Dari ide kecil, jadi video, lagu &amp; gambar ajaib.</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 text-xs font-bold text-sky-700">
+        <a href="https://emix.ai/" target="_blank" rel="noopener noreferrer" class="hover:underline">Emix AI ↗</a>
+        <a href="https://kie.ai/" target="_blank" rel="noopener noreferrer" class="hover:underline">Kie AI ↗</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal Panduan -->
+  <div id="guideModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+    <div class="bg-white rounded-3xl border border-sky-200 max-w-lg w-full max-h-[85vh] overflow-y-auto custom-scroll p-6 shadow-2xl">
+      <div class="flex items-center justify-between gap-3 pb-3 border-b border-sky-100">
+        <h3 id="modalTitle" class="text-base font-extrabold text-[#0f294a]">Panduan Singkat</h3>
+        <button id="btnCloseModal" type="button" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-sky-100 text-slate-600 font-bold flex items-center justify-center">✕</button>
+      </div>
+      <div id="modalBody" class="mt-4 space-y-3 text-xs sm:text-sm text-[#4b6584] leading-relaxed"></div>
+      <div class="mt-5 pt-3 border-t border-sky-100 flex justify-end">
+        <button id="btnCloseModalBottom" type="button" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition">Mengerti</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      // ============================================================
+      // PROVIDER CONFIGURATION (VERIFIED ENDPOINTS)
+      // ============================================================
+      const PROVIDERS = {
+        emix: {
+          name: 'Emix AI',
+          keyLabel: 'EMIX AI API KEY',
+          placeholder: 'Tempel API key Emix AI di sini',
+          keyUrl: 'https://emix.ai/api-key',
+          docsUrl: 'https://docs.emix.ai/',
+          baseUrl: 'https://api.emix.ai',
+          createTaskUrl: 'https://api.emix.ai/api/v1/client/tasks',
+          getTaskUrl: (taskId) => `https://api.emix.ai/api/v1/client/tasks/${encodeURIComponent(taskId)}`,
+          creditUrl: null,
+          uploadUrl: null
+        },
+        kie: {
+          name: 'Kie AI',
+          keyLabel: 'KIE AI API KEY',
+          placeholder: 'Tempel API key Kie AI di sini',
+          keyUrl: 'https://kie.ai/api-key',
+          docsUrl: 'https://docs.kie.ai/market/kling/motion-control',
+          musicDocsUrl: 'https://docs.kie.ai/suno-api/generate-music',
+          imageDocsUrl: 'https://docs.kie.ai/market/seedream/5-pro-image-to-image',
+          baseUrl: 'https://api.kie.ai',
+          createTaskUrl: 'https://api.kie.ai/api/v1/jobs/createTask',
+          getTaskUrl: (taskId) => `https://api.kie.ai/api/v1/jobs/recordInfo?taskId=${encodeURIComponent(taskId)}`,
+          creditUrl: 'https://api.kie.ai/api/v1/chat/credit',
+          uploadUrl: 'https://kieai.redpandaai.co/api/file-stream-upload'
+        }
+      };
+
+      const CONSISTENCY_PROMPT = 'Pertahankan identitas wajah, ekspresi, gaya rambut, dan detail pakaian karakter secara konsisten dari awal hingga akhir. Ikuti gerakan tubuh dan ritme video referensi secara natural dengan pencahayaan stabil dan latar rapi.';
+      const LYRICS_TEMPLATE = `[Verse 1]\nDi bawah langit senja yang mulai meredup\nLangkah kecil ini terus berjalan maju\nMenyimpan mimpi di dalam saku cerita\nBerharap esok membawa kabar bahagia\n\n[Chorus]\nTerbang tinggi menembus awan biru\nJangan pernah ragu dengan mimpimu\nDari ide kecil jadi karya yang nyata\nSelalu bersinar sepanjang masa\n\n[Outro]\nLangkah demi langkah, terus berkarya.`;
+
+      const MUSIC_PRESETS = {
+        pop: {
+          title: 'Rindu di Penghujung Senja',
+          prompt: 'Lagu pop akustik Indonesia yang emosional tentang rindu rumah saat merantau, diiringi petikan gitar lembut dan piano hangat.',
+          style: 'Indonesian Acoustic Pop, Warm Emotional Vocals, Soft Guitar, Gentle Piano, 88 BPM'
+        },
+        koplo: {
+          title: 'Goyang Santai Malam Minggu',
+          prompt: 'Lagu dangdut koplo modern yang ceria dan asyik buat joget TikTok, beat kendang kempul energik, lirik santai berbahasa Indonesia.',
+          style: 'Modern Dangdut Koplo, Energetic Kendang, Catchy Synth Hook, Upbeat Indonesian Vocals, 138 BPM'
+        },
+        lofi: {
+          title: 'Kopi Hangat Tengah Malam',
+          prompt: 'Musik lo-fi chill instrumental untuk menemani kerja malam dan santai, suara hujan halus, rhodes piano lembut, drum pelan.',
+          style: 'Lo-Fi Chillhop, Warm Rhodes Piano, Vinyl Crackle, Soft Rain Ambience, Relaxing Beat, 78 BPM',
+          instrumental: true
+        },
+        drama: {
+          title: 'Detik-Detik Penentuan',
+          prompt: 'Soundtrack sinematik untuk mini drama YouTube tentang perjuangan keluarga, diawali piano sedih lalu naik dramatis dengan orkestra strings.',
+          style: 'Cinematic Emotional Soundtrack, Dramatic Strings, Expressive Piano, Hopeful Climax, 95 BPM'
+        }
+      };
+
+      const IMAGE_EDIT_PRESETS = {
+        studio: 'Pertahankan wajah, pose, dan detail utama subjek tetap identik. Ganti latar belakang menjadi studio fotografi bersih bernuansa putih-biru lembut dengan pencahayaan softbox profesional dan bayangan natural.',
+        affiliate: 'Pertahankan bentuk dan label produk secara akurat. Tempatkan produk di atas meja kayu estetik minimalis dengan cahaya matahari pagi yang hangat, depth of field halus, kualitas foto komersial HD.',
+        outfit: 'Pertahankan wajah, gaya rambut, dan pose tubuh subjek tetap sama. Ubah pakaian menjadi kemeja kasual modern yang rapi dan pas di badan dengan tekstur kain realistis serta pencahayaan menyatu.',
+        cinematic: 'Pertahankan komposisi dan identitas karakter. Tingkatkan ketajaman, warna sinematik golden hour, pencahayaan rim-light lembut di tepi rambut, dan detail kulit yang natural seperti foto kamera profesional.'
+      };
+
+      const HISTORY_STORAGE_KEY = 'sofyan_motion_control_history_v1';
+
+      // ============================================================
+      // APPLICATION STATE
+      // ============================================================
+      const state = {
+        studioMode: 'video', // 'video' | 'music' | 'image'
+        provider: 'emix',
+        apiKeys: { emix: '', kie: '' },
+        connected: { emix: false, kie: false },
+        credits: { emix: null, kie: null },
+        // Video settings
+        model: 'kling-3.0/motion-control',
+        mode: '720p',
+        orientation: 'video',
+        background: 'input_image',
+        mvhdActive: true,
+        imgSourceMode: 'upload',
+        vidSourceMode: 'upload',
+        imgFile: null,
+        imgObjectUrl: '',
+        imgUrl: '',
+        vidFile: null,
+        vidObjectUrl: '',
+        vidDurationSec: null,
+        vidUrl: '',
+        directUpload: true,
+        prompt: '',
+        // Music settings
+        musicModel: 'V6',
+        musicMode: 'simple', // 'simple' | 'custom' | 'cover'
+        musicCustomMode: false,
+        musicInstrumental: false,
+        coverAudioSourceMode: 'upload', // 'upload' | 'url'
+        coverAudioFile: null,
+        coverAudioObjectUrl: '',
+        coverAudioUrl: '',
+        // Image Edit (Seedream 5.0) settings
+        seedreamModel: 'seedream/5-pro-image-to-image',
+        seedreamAspect: '1:1',
+        seedreamQuality: 'basic',
+        seedreamFormat: 'png',
+        editImgSourceMode: 'upload',
+        editImgFile: null,
+        editImgObjectUrl: '',
+        editImgUrl: '',
+        // Shared output & polling
+        rightTab: 'result',
+        activeTaskId: '',
+        activeTaskType: 'video', // 'video' | 'music' | 'image'
+        activeVideoUrl: '',
+        activeTracks: [],
+        activeImageUrl: '',
+        pollTimer: null,
+        isGenerating: false,
+        history: []
+      };
+
+      // ============================================================
+      // DOM REFERENCES
+      // ============================================================
+      const el = {
+        toastContainer: document.getElementById('toastContainer'),
+        headerDocsLink: document.getElementById('headerDocsLink'),
+        btnOpenGuideHeader: document.getElementById('btnOpenGuideHeader'),
+        btnOpenGuideTips: document.getElementById('btnOpenGuideTips'),
+        btnOpenUploadGuide: document.getElementById('btnOpenUploadGuide'),
+        mascotBubbleText: document.getElementById('mascotBubbleText'),
+        studioTabVideo: document.getElementById('studioTabVideo'),
+        studioTabMusic: document.getElementById('studioTabMusic'),
+        studioTabImage: document.getElementById('studioTabImage'),
+        leftPanelTitle: document.getElementById('leftPanelTitle'),
+        leftPanelSubtitle: document.getElementById('leftPanelSubtitle'),
+        videoStudioControls: document.getElementById('videoStudioControls'),
+        musicStudioControls: document.getElementById('musicStudioControls'),
+        imageStudioControls: document.getElementById('imageStudioControls'),
+        btnResetForm: document.getElementById('btnResetForm'),
+        tabProviderEmix: document.getElementById('tabProviderEmix'),
+        tabProviderKie: document.getElementById('tabProviderKie'),
+        apiKeyLabel: document.getElementById('apiKeyLabel'),
+        getApiKeyLink: document.getElementById('getApiKeyLink'),
+        apiKeyInput: document.getElementById('apiKeyInput'),
+        btnToggleApiKey: document.getElementById('btnToggleApiKey'),
+        eyeIconOpen: document.getElementById('eyeIconOpen'),
+        eyeIconClosed: document.getElementById('eyeIconClosed'),
+        apiStatusBadge: document.getElementById('apiStatusBadge'),
+        btnConnectApi: document.getElementById('btnConnectApi'),
+        creditProviderName: document.getElementById('creditProviderName'),
+        creditValue: document.getElementById('creditValue'),
+        creditStatusText: document.getElementById('creditStatusText'),
+        btnRefreshCredits: document.getElementById('btnRefreshCredits'),
+        // Video DOM
+        modelSelect: document.getElementById('modelSelect'),
+        btnMode720: document.getElementById('btnMode720'),
+        btnMode1080: document.getElementById('btnMode1080'),
+        orientationSelect: document.getElementById('orientationSelect'),
+        btnOrientationInfo: document.getElementById('btnOrientationInfo'),
+        orientationTooltip: document.getElementById('orientationTooltip'),
+        backgroundSelect: document.getElementById('backgroundSelect'),
+        mvhdToggle: document.getElementById('mvhdToggle'),
+        mvhdBadge: document.getElementById('mvhdBadge'),
+        imgTabUpload: document.getElementById('imgTabUpload'),
+        imgTabUrl: document.getElementById('imgTabUrl'),
+        imgUploadBox: document.getElementById('imgUploadBox'),
+        imgUrlBox: document.getElementById('imgUrlBox'),
+        imgDropzone: document.getElementById('imgDropzone'),
+        imgFileInput: document.getElementById('imgFileInput'),
+        imgEmptyState: document.getElementById('imgEmptyState'),
+        imgPreviewState: document.getElementById('imgPreviewState'),
+        imgPreviewThumb: document.getElementById('imgPreviewThumb'),
+        imgFileName: document.getElementById('imgFileName'),
+        btnClearImg: document.getElementById('btnClearImg'),
+        imgUrlInput: document.getElementById('imgUrlInput'),
+        imgUrlPreviewWrap: document.getElementById('imgUrlPreviewWrap'),
+        imgUrlPreview: document.getElementById('imgUrlPreview'),
+        vidTabUpload: document.getElementById('vidTabUpload'),
+        vidTabUrl: document.getElementById('vidTabUrl'),
+        vidUploadBox: document.getElementById('vidUploadBox'),
+        vidUrlBox: document.getElementById('vidUrlBox'),
+        vidDropzone: document.getElementById('vidDropzone'),
+        vidFileInput: document.getElementById('vidFileInput'),
+        vidEmptyState: document.getElementById('vidEmptyState'),
+        vidPreviewState: document.getElementById('vidPreviewState'),
+        vidPreviewPlayer: document.getElementById('vidPreviewPlayer'),
+        vidFileName: document.getElementById('vidFileName'),
+        vidDurationBadge: document.getElementById('vidDurationBadge'),
+        btnClearVid: document.getElementById('btnClearVid'),
+        vidUrlInput: document.getElementById('vidUrlInput'),
+        directUploadCheckbox: document.getElementById('directUploadCheckbox'),
+        promptInput: document.getElementById('promptInput'),
+        promptCounter: document.getElementById('promptCounter'),
+        btnConsistencyPrompt: document.getElementById('btnConsistencyPrompt'),
+        btnGenerateVideo: document.getElementById('btnGenerateVideo'),
+        btnGenerateText: document.getElementById('btnGenerateText'),
+        // Music DOM
+        musicModelSelect: document.getElementById('musicModelSelect'),
+        btnMusicVocal: document.getElementById('btnMusicVocal'),
+        btnMusicInst: document.getElementById('btnMusicInst'),
+        btnMusicModeSimple: document.getElementById('btnMusicModeSimple'),
+        btnMusicModeCustom: document.getElementById('btnMusicModeCustom'),
+        btnMusicModeCover: document.getElementById('btnMusicModeCover'),
+        musicSimpleFields: document.getElementById('musicSimpleFields'),
+        musicCustomFields: document.getElementById('musicCustomFields'),
+        musicCoverFields: document.getElementById('musicCoverFields'),
+        coverAudioTabUpload: document.getElementById('coverAudioTabUpload'),
+        coverAudioTabUrl: document.getElementById('coverAudioTabUrl'),
+        coverAudioUploadBox: document.getElementById('coverAudioUploadBox'),
+        coverAudioUrlBox: document.getElementById('coverAudioUrlBox'),
+        coverAudioDropzone: document.getElementById('coverAudioDropzone'),
+        coverAudioFileInput: document.getElementById('coverAudioFileInput'),
+        coverAudioEmptyState: document.getElementById('coverAudioEmptyState'),
+        coverAudioPreviewState: document.getElementById('coverAudioPreviewState'),
+        coverAudioPreviewPlayer: document.getElementById('coverAudioPreviewPlayer'),
+        coverAudioFileName: document.getElementById('coverAudioFileName'),
+        btnClearCoverAudio: document.getElementById('btnClearCoverAudio'),
+        coverAudioUrlInput: document.getElementById('coverAudioUrlInput'),
+        coverTitleInput: document.getElementById('coverTitleInput'),
+        coverTitleCounter: document.getElementById('coverTitleCounter'),
+        coverVocalGender: document.getElementById('coverVocalGender'),
+        coverStyleInput: document.getElementById('coverStyleInput'),
+        coverStyleCounter: document.getElementById('coverStyleCounter'),
+        coverAudioWeight: document.getElementById('coverAudioWeight'),
+        coverAudioWeightVal: document.getElementById('coverAudioWeightVal'),
+        coverStyleWeight: document.getElementById('coverStyleWeight'),
+        coverStyleWeightVal: document.getElementById('coverStyleWeightVal'),
+        coverLyricsWrap: document.getElementById('coverLyricsWrap'),
+        coverLyricsInput: document.getElementById('coverLyricsInput'),
+        coverLyricsCounter: document.getElementById('coverLyricsCounter'),
+        musicSimplePrompt: document.getElementById('musicSimplePrompt'),
+        musicSimpleCounter: document.getElementById('musicSimpleCounter'),
+        musicSimpleStyle: document.getElementById('musicSimpleStyle'),
+        musicTitleInput: document.getElementById('musicTitleInput'),
+        musicTitleCounter: document.getElementById('musicTitleCounter'),
+        musicVocalGender: document.getElementById('musicVocalGender'),
+        musicStyleInput: document.getElementById('musicStyleInput'),
+        musicStyleCounter: document.getElementById('musicStyleCounter'),
+        musicLyricsWrap: document.getElementById('musicLyricsWrap'),
+        musicLyricsInput: document.getElementById('musicLyricsInput'),
+        musicLyricsCounter: document.getElementById('musicLyricsCounter'),
+        btnInsertLyricsTemplate: document.getElementById('btnInsertLyricsTemplate'),
+        musicNegativeTags: document.getElementById('musicNegativeTags'),
+        btnGenerateMusic: document.getElementById('btnGenerateMusic'),
+        btnGenerateMusicText: document.getElementById('btnGenerateMusicText'),
+        // Image Edit (Seedream 5.0) DOM
+        seedreamModelSelect: document.getElementById('seedreamModelSelect'),
+        seedreamAspectSelect: document.getElementById('seedreamAspectSelect'),
+        btnSeedreamBasic: document.getElementById('btnSeedreamBasic'),
+        btnSeedreamHigh: document.getElementById('btnSeedreamHigh'),
+        btnSeedreamPng: document.getElementById('btnSeedreamPng'),
+        btnSeedreamJpg: document.getElementById('btnSeedreamJpg'),
+        editImgTabUpload: document.getElementById('editImgTabUpload'),
+        editImgTabUrl: document.getElementById('editImgTabUrl'),
+        editImgUploadBox: document.getElementById('editImgUploadBox'),
+        editImgUrlBox: document.getElementById('editImgUrlBox'),
+        editImgDropzone: document.getElementById('editImgDropzone'),
+        editImgFileInput: document.getElementById('editImgFileInput'),
+        editImgEmptyState: document.getElementById('editImgEmptyState'),
+        editImgPreviewState: document.getElementById('editImgPreviewState'),
+        editImgPreviewThumb: document.getElementById('editImgPreviewThumb'),
+        editImgFileName: document.getElementById('editImgFileName'),
+        btnClearEditImg: document.getElementById('btnClearEditImg'),
+        editImgUrlInput: document.getElementById('editImgUrlInput'),
+        editImgUrlPreviewWrap: document.getElementById('editImgUrlPreviewWrap'),
+        editImgUrlPreview: document.getElementById('editImgUrlPreview'),
+        editRefUrlInput: document.getElementById('editRefUrlInput'),
+        seedreamPromptInput: document.getElementById('seedreamPromptInput'),
+        seedreamPromptCounter: document.getElementById('seedreamPromptCounter'),
+        btnGenerateImage: document.getElementById('btnGenerateImage'),
+        btnGenerateImageText: document.getElementById('btnGenerateImageText'),
+        // Right panel DOM
+        tabOutputResult: document.getElementById('tabOutputResult'),
+        tabOutputHistory: document.getElementById('tabOutputHistory'),
+        historyCountBadge: document.getElementById('historyCountBadge'),
+        rightStatusPill: document.getElementById('rightStatusPill'),
+        panelResultView: document.getElementById('panelResultView'),
+        panelHistoryView: document.getElementById('panelHistoryView'),
+        previewQualityBadge: document.getElementById('previewQualityBadge'),
+        previewIdle: document.getElementById('previewIdle'),
+        previewIdleTag: document.getElementById('previewIdleTag'),
+        idleIconVideo: document.getElementById('idleIconVideo'),
+        idleIconMusic: document.getElementById('idleIconMusic'),
+        idleIconImage: document.getElementById('idleIconImage'),
+        previewIdleTitle: document.getElementById('previewIdleTitle'),
+        previewIdleDesc: document.getElementById('previewIdleDesc'),
+        previewLoading: document.getElementById('previewLoading'),
+        loadingHeadline: document.getElementById('loadingHeadline'),
+        loadingSubtext: document.getElementById('loadingSubtext'),
+        activeTaskIdText: document.getElementById('activeTaskIdText'),
+        btnCopyActiveTaskId: document.getElementById('btnCopyActiveTaskId'),
+        btnPollNow: document.getElementById('btnPollNow'),
+        btnStopPolling: document.getElementById('btnStopPolling'),
+        previewDone: document.getElementById('previewDone'),
+        resultVideoPlayer: document.getElementById('resultVideoPlayer'),
+        btnDownloadVideo: document.getElementById('btnDownloadVideo'),
+        btnCopyVideoUrl: document.getElementById('btnCopyVideoUrl'),
+        doneTaskIdMeta: document.getElementById('doneTaskIdMeta'),
+        previewDoneMusic: document.getElementById('previewDoneMusic'),
+        musicTracksContainer: document.getElementById('musicTracksContainer'),
+        doneMusicTaskIdMeta: document.getElementById('doneMusicTaskIdMeta'),
+        previewDoneImage: document.getElementById('previewDoneImage'),
+        resultImagePreview: document.getElementById('resultImagePreview'),
+        btnDownloadImage: document.getElementById('btnDownloadImage'),
+        btnCopyImageUrl: document.getElementById('btnCopyImageUrl'),
+        btnSendImageToMotion: document.getElementById('btnSendImageToMotion'),
+        doneImageTaskIdMeta: document.getElementById('doneImageTaskIdMeta'),
+        previewError: document.getElementById('previewError'),
+        errorDetailText: document.getElementById('errorDetailText'),
+        btnDismissError: document.getElementById('btnDismissError'),
+        summaryLabel1: document.getElementById('summaryLabel1'),
+        summaryLabel2: document.getElementById('summaryLabel2'),
+        summaryLabel3: document.getElementById('summaryLabel3'),
+        summaryModel: document.getElementById('summaryModel'),
+        summaryQuality: document.getElementById('summaryQuality'),
+        summaryOrientation: document.getElementById('summaryOrientation'),
+        stepIndicator1: document.getElementById('stepIndicator1'),
+        stepLabel1: document.getElementById('stepLabel1'),
+        stepIndicator2: document.getElementById('stepIndicator2'),
+        stepIndicator3: document.getElementById('stepIndicator3'),
+        manualTaskIdInput: document.getElementById('manualTaskIdInput'),
+        btnCheckManualTask: document.getElementById('btnCheckManualTask'),
+        historyList: document.getElementById('historyList'),
+        btnClearHistory: document.getElementById('btnClearHistory'),
+        tipsHeadline: document.getElementById('tipsHeadline'),
+        tipsBody: document.getElementById('tipsBody'),
+        guideModal: document.getElementById('guideModal'),
+        modalTitle: document.getElementById('modalTitle'),
+        modalBody: document.getElementById('modalBody'),
+        btnCloseModal: document.getElementById('btnCloseModal'),
+        btnCloseModalBottom: document.getElementById('btnCloseModalBottom')
+      };
+
+      // ============================================================
+      // UTILITIES
+      // ============================================================
+      function showToast(message, type = 'info') {
+        const colors = {
+          info: 'bg-sky-900 text-white border-sky-700',
+          success: 'bg-emerald-700 text-white border-emerald-600',
+          warning: 'bg-amber-600 text-white border-amber-500',
+          error: 'bg-rose-700 text-white border-rose-600'
+        };
+        const toast = document.createElement('div');
+        toast.className = `pointer-events-auto px-4 py-3 rounded-2xl border shadow-lg text-xs font-semibold flex items-center justify-between gap-3 transition-all duration-300 opacity-0 translate-y-2 ${colors[type] || colors.info}`;
+        toast.textContent = message;
+        el.toastContainer.appendChild(toast);
+        requestAnimationFrame(() => {
+          toast.classList.remove('opacity-0', 'translate-y-2');
+        });
+        setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-2');
+          setTimeout(() => toast.remove(), 300);
+        }, 3800);
+      }
+
+      function escapeHtml(str) {
+        return String(str || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      async function copyText(text, label = 'Teks') {
+        if (!text) return;
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            throw new Error('Clipboard unavailable');
+          }
+          showToast(`${label} berhasil disalin!`, 'success');
+        } catch {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          try {
+            document.execCommand('copy');
+            showToast(`${label} berhasil disalin!`, 'success');
+          } catch {
+            showToast('Gagal menyalin otomatis.', 'warning');
+          }
+          ta.remove();
+        }
+      }
+
+      function loadHistory() {
+        try {
+          const raw = localStorage.getItem(HISTORY_STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) state.history = parsed;
+          }
+        } catch {
+          state.history = [];
+        }
+      }
+
+      function saveHistory() {
+        try {
+          localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(state.history.slice(0, 30)));
+        } catch {
+          // Ignore storage restrictions
+        }
+      }
+
+      function formatBytes(bytes) {
+        if (!bytes && bytes !== 0) return '';
+        if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+        return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+      }
+
+      function formatTime(iso) {
+        try {
+          return new Date(iso).toLocaleString('id-ID', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+        } catch {
+          return '';
+        }
+      }
+
+      // ============================================================
+      // UI RENDERING
+      // ============================================================
+      function setRightStatus(label, variant = 'ready') {
+        const map = {
+          ready: { cls: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' },
+          working: { cls: 'bg-sky-100 text-sky-700 border-sky-200', dot: 'bg-sky-500 dot-pulse' },
+          done: { cls: 'bg-emerald-100 text-emerald-800 border-emerald-300', dot: 'bg-emerald-600' },
+          error: { cls: 'bg-rose-100 text-rose-700 border-rose-200', dot: 'bg-rose-500' }
+        };
+        const cfg = map[variant] || map.ready;
+        el.rightStatusPill.className = `inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-extrabold border ${cfg.cls}`;
+        el.rightStatusPill.innerHTML = `<span class="w-2 h-2 rounded-full ${cfg.dot}"></span><span>${label}</span>`;
+      }
+
+      function setStep(activeStep) {
+        const steps = [el.stepIndicator1, el.stepIndicator2, el.stepIndicator3];
+        steps.forEach((node, idx) => {
+          const num = idx + 1;
+          const badge = node.querySelector('span:first-child');
+          const label = node.querySelector('span:last-child');
+          if (num <= activeStep) {
+            node.className = 'flex items-center gap-2 p-2 rounded-xl bg-sky-50 border border-sky-200';
+            badge.className = 'w-5 h-5 rounded-full bg-sky-600 text-white text-[10px] font-extrabold flex items-center justify-center shrink-0';
+            label.className = 'text-xs font-bold text-sky-900';
+          } else {
+            node.className = 'flex items-center gap-2 p-2 rounded-xl bg-slate-50 border border-slate-200/70';
+            badge.className = 'w-5 h-5 rounded-full bg-slate-300 text-slate-700 text-[10px] font-extrabold flex items-center justify-center shrink-0';
+            label.className = 'text-xs font-bold text-slate-500';
+          }
+        });
+      }
+
+      function showPreviewState(mode) {
+        el.previewIdle.classList.toggle('hidden', mode !== 'idle');
+        el.previewLoading.classList.toggle('hidden', mode !== 'loading');
+        el.previewDone.classList.toggle('hidden', mode !== 'done');
+        el.previewDoneMusic.classList.toggle('hidden', mode !== 'done-music');
+        el.previewDoneImage.classList.toggle('hidden', mode !== 'done-image');
+        el.previewError.classList.toggle('hidden', mode !== 'error');
+      }
+
+      function renderStudioModeUI() {
+        const isVideo = state.studioMode === 'video';
+        const isMusic = state.studioMode === 'music';
+        const isImage = state.studioMode === 'image';
+
+        el.videoStudioControls.classList.toggle('hidden', !isVideo);
+        el.musicStudioControls.classList.toggle('hidden', !isMusic);
+        el.imageStudioControls.classList.toggle('hidden', !isImage);
+
+        const idleTab = 'studio-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center justify-center gap-2 text-slate-600 hover:text-sky-800 hover:bg-sky-50';
+        el.studioTabVideo.className = isVideo
+          ? 'studio-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-sm'
+          : idleTab;
+        el.studioTabMusic.className = isMusic
+          ? 'studio-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-indigo-600 text-white shadow-sm'
+          : idleTab;
+        el.studioTabImage.className = isImage
+          ? 'studio-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-teal-600 text-white shadow-sm'
+          : idleTab;
+
+        el.idleIconVideo.classList.toggle('hidden', !isVideo);
+        el.idleIconMusic.classList.toggle('hidden', !isMusic);
+        el.idleIconImage.classList.toggle('hidden', !isImage);
+
+        if (isVideo) {
+          el.leftPanelTitle.textContent = 'Buat video baru';
+          el.leftPanelSubtitle.textContent = 'Hubungkan API key, unggah media, lalu generate video motion control.';
+          el.mascotBubbleText.textContent = 'Yuk, bikin gerakan ajaib!';
+          el.previewIdleTag.textContent = 'CHARACTER & MOTION';
+          el.previewIdleTitle.textContent = 'Di sini gerakan dimulai.';
+          el.previewIdleDesc.textContent = 'Gabungkan gambar karakter dan video referensi. Hasil kreasimu akan muncul di sini.';
+          el.stepLabel1.textContent = 'Media';
+          el.tipsHeadline.textContent = 'Referensi bagus, hasil lebih maksimal.';
+          el.tipsBody.textContent = 'Pilih foto dengan wajah & tubuh jelas, hindari banyak orang dalam satu frame, gerakan terlalu cepat, atau objek yang menutupi wajah karakter.';
+        } else if (isMusic) {
+          el.leftPanelTitle.textContent = 'Buat lagu AI baru (Suno)';
+          el.leftPanelSubtitle.textContent = 'Pakai API key Emix AI / Kie AI yang sama untuk bikin lagu lengkap vokal atau instrumental.';
+          el.mascotBubbleText.textContent = 'Yuk, bikin lagu hits AI!';
+          el.previewIdleTag.textContent = 'AI MUSIC STUDIO · SUNO';
+          el.previewIdleTitle.textContent = 'Di sini melodimu dimulai.';
+          el.previewIdleDesc.textContent = 'Tulis ide lagu atau lirik kustommu. Suno AI akan meracik 2 variasi lagu MP3 siap putar & unduh.';
+          el.stepLabel1.textContent = 'Lirik';
+          el.tipsHeadline.textContent = 'Tips bikin lagu Suno makin enak didengar.';
+          el.tipsBody.textContent = 'Gunakan tag struktur seperti [Verse], [Chorus], [Bridge] di Mode Kustom, dan sebutkan genre + suasana (misal: Pop Indonesia, Acoustic Guitar, 90 BPM).';
+        } else {
+          el.leftPanelTitle.textContent = 'Edit gambar (Seedream 5.0)';
+          el.leftPanelSubtitle.textContent = 'Ubah latar, outfit, pencahayaan, atau gaya foto pakai Seedream 5.0 dengan API key yang sama.';
+          el.mascotBubbleText.textContent = 'Yuk, sulap fotomu jadi HD!';
+          el.previewIdleTag.textContent = 'IMAGE EDIT · SEEDREAM 5.0';
+          el.previewIdleTitle.textContent = 'Di sini edit fotomu muncul.';
+          el.previewIdleDesc.textContent = 'Unggah foto & tulis instruksi edit. Hasilnya juga bisa langsung kamu kirim ke Motion Control Video!';
+          el.stepLabel1.textContent = 'Foto';
+          el.tipsHeadline.textContent = 'Tips edit gambar Seedream 5.0 lebih presisi.';
+          el.tipsBody.textContent = 'Sebutkan bagian yang ingin dipertahankan (mis. "Pertahankan wajah dan pose") lalu jelaskan perubahan spesifik pada baju, latar, atau pencahayaan.';
+        }
+
+        renderProviderUI();
+        renderConfigSummary();
+      }
+
+      function renderProviderUI() {
+        const p = PROVIDERS[state.provider];
+        el.apiKeyLabel.textContent = p.keyLabel;
+        el.apiKeyInput.placeholder = p.placeholder;
+        el.apiKeyInput.value = state.apiKeys[state.provider] || '';
+        el.getApiKeyLink.href = p.keyUrl;
+        if (state.provider === 'kie') {
+          el.headerDocsLink.href = state.studioMode === 'music' ? p.musicDocsUrl : state.studioMode === 'image' ? p.imageDocsUrl : p.docsUrl;
+        } else {
+          el.headerDocsLink.href = p.docsUrl;
+        }
+        el.creditProviderName.textContent = p.name;
+
+        [el.tabProviderEmix, el.tabProviderKie].forEach((btn) => {
+          const isActive = btn.dataset.provider === state.provider;
+          const dot = btn.querySelector('span');
+          if (isActive) {
+            btn.className = 'provider-tab py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 bg-white text-sky-700 shadow-sm border border-sky-200';
+            dot.className = 'w-2 h-2 rounded-full bg-sky-500';
+          } else {
+            btn.className = 'provider-tab py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:text-sky-700';
+            dot.className = 'w-2 h-2 rounded-full bg-slate-300';
+          }
+        });
+
+        if (state.connected[state.provider]) {
+          el.apiStatusBadge.className = 'inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700';
+          el.apiStatusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500"></span><span>Terhubung</span>';
+        } else {
+          el.apiStatusBadge.className = 'inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500';
+          el.apiStatusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-slate-400"></span><span>Belum diperiksa</span>';
+        }
+
+        const cr = state.credits[state.provider];
+        if (cr !== null && cr !== undefined) {
+          el.creditValue.textContent = typeof cr === 'number' ? `${cr.toLocaleString('id-ID')} kredit` : String(cr);
+          el.creditStatusText.textContent = state.provider === 'kie' ? 'Saldo aktif akun Kie AI' : 'API key siap digunakan';
+        } else {
+          el.creditValue.textContent = '—';
+          el.creditStatusText.textContent = 'Hubungkan API key untuk melihat saldo';
+        }
+      }
+
+      function renderMusicControlsUI() {
+        const activeBtn = 'py-2.5 px-3 rounded-xl text-xs font-extrabold border-2 border-sky-500 bg-sky-50 text-sky-800 transition';
+        const idleBtn = 'py-2.5 px-3 rounded-xl text-xs font-extrabold border border-sky-200 bg-white text-slate-600 hover:border-sky-300 transition';
+        el.btnMusicVocal.className = !state.musicInstrumental ? activeBtn : idleBtn;
+        el.btnMusicInst.className = state.musicInstrumental ? activeBtn : idleBtn;
+
+        const tabOn = 'py-2 px-2.5 rounded-xl text-[11px] font-bold bg-white text-sky-800 shadow-sm border border-sky-200 transition';
+        const tabOff = 'py-2 px-2.5 rounded-xl text-[11px] font-bold text-slate-600 hover:text-sky-800 transition';
+        el.btnMusicModeSimple.className = state.musicMode === 'simple' ? tabOn : tabOff;
+        el.btnMusicModeCustom.className = state.musicMode === 'custom' ? tabOn : tabOff;
+        el.btnMusicModeCover.className = state.musicMode === 'cover' ? tabOn : tabOff;
+
+        el.musicSimpleFields.classList.toggle('hidden', state.musicMode !== 'simple');
+        el.musicCustomFields.classList.toggle('hidden', state.musicMode !== 'custom');
+        el.musicCoverFields.classList.toggle('hidden', state.musicMode !== 'cover');
+        el.musicLyricsWrap.classList.toggle('hidden', state.musicInstrumental);
+        el.coverLyricsWrap.classList.toggle('hidden', state.musicInstrumental);
+        el.btnGenerateMusicText.textContent = state.musicMode === 'cover' ? 'Cover lagu AI sekarang' : 'Generate lagu AI';
+      }
+
+      function renderImageControlsUI() {
+        const activeBtn = 'py-2.5 px-3 rounded-xl text-xs font-extrabold border-2 border-sky-500 bg-sky-50 text-sky-800 transition';
+        const idleBtn = 'py-2.5 px-3 rounded-xl text-xs font-extrabold border border-sky-200 bg-white text-slate-600 hover:border-sky-300 transition';
+        el.btnSeedreamBasic.className = state.seedreamQuality === 'basic' ? activeBtn : idleBtn;
+        el.btnSeedreamHigh.className = state.seedreamQuality === 'high' ? activeBtn : idleBtn;
+        el.btnSeedreamPng.className = state.seedreamFormat === 'png' ? activeBtn : idleBtn;
+        el.btnSeedreamJpg.className = state.seedreamFormat === 'jpeg' ? activeBtn : idleBtn;
+      }
+
+      function getSeedreamShortLabel(modelId) {
+        if (modelId.includes('flash')) return 'Seedream 5 Flash';
+        if (modelId.includes('lite')) return 'Seedream 5 Lite';
+        return 'Seedream 5 Pro';
+      }
+
+      function renderConfigSummary() {
+        if (state.studioMode === 'video') {
+          el.summaryLabel1.textContent = 'MODEL';
+          el.summaryLabel2.textContent = 'KUALITAS';
+          el.summaryLabel3.textContent = 'ORIENTASI';
+          el.summaryModel.textContent = state.model.includes('3.0') ? 'Kling 3.0' : 'Kling 2.6';
+          el.summaryQuality.textContent = state.mode === '1080p' ? '1080p PRO' : '720p STD';
+          el.summaryOrientation.textContent = state.orientation === 'video' ? 'Ikuti video' : 'Ikuti gambar';
+          el.previewQualityBadge.textContent = `MP4 · ${state.mode}`;
+        } else if (state.studioMode === 'music') {
+          el.summaryLabel1.textContent = 'MODEL LAGU';
+          el.summaryLabel2.textContent = 'MODE';
+          el.summaryLabel3.textContent = 'TIPE AUDIO';
+          el.summaryModel.textContent = `Suno ${state.musicModel.replace('_', '.')}`;
+          el.summaryQuality.textContent = state.musicMode === 'cover' ? 'Cover Audio' : state.musicMode === 'custom' ? 'Kustom Lirik' : 'Otomatis';
+          el.summaryOrientation.textContent = state.musicInstrumental ? 'Instrumental' : 'Vokal + Musik';
+          el.previewQualityBadge.textContent = `MP3 · Suno ${state.musicModel.replace('_', '.')}`;
+        } else {
+          el.summaryLabel1.textContent = 'MODEL EDIT';
+          el.summaryLabel2.textContent = 'RASIO';
+          el.summaryLabel3.textContent = 'FORMAT';
+          el.summaryModel.textContent = getSeedreamShortLabel(state.seedreamModel);
+          el.summaryQuality.textContent = state.seedreamAspect;
+          el.summaryOrientation.textContent = `${state.seedreamFormat.toUpperCase()} · ${state.seedreamQuality === 'high' ? 'High' : '2K'}`;
+          el.previewQualityBadge.textContent = `${state.seedreamFormat.toUpperCase()} · ${state.seedreamAspect}`;
+        }
+
+        const activeCls = 'mode-btn py-2.5 px-3 rounded-xl text-xs font-extrabold border-2 border-sky-500 bg-sky-50 text-sky-800 transition';
+        const idleCls = 'mode-btn py-2.5 px-3 rounded-xl text-xs font-extrabold border border-sky-200 bg-white text-slate-600 hover:border-sky-300 transition';
+        el.btnMode720.className = state.mode === '720p' ? activeCls : idleCls;
+        el.btnMode1080.className = state.mode === '1080p' ? activeCls : idleCls;
+      }
+
+      function renderRightTabs() {
+        const isRes = state.rightTab === 'result';
+        el.panelResultView.classList.toggle('hidden', !isRes);
+        el.panelHistoryView.classList.toggle('hidden', isRes);
+        el.tabOutputResult.className = isRes
+          ? 'right-tab px-3.5 py-1.5 rounded-lg text-xs font-bold bg-white text-sky-800 shadow-sm transition'
+          : 'right-tab px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-sky-800 transition';
+        el.tabOutputHistory.className = !isRes
+          ? 'right-tab px-3.5 py-1.5 rounded-lg text-xs font-bold bg-white text-sky-800 shadow-sm transition flex items-center gap-1.5'
+          : 'right-tab px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-sky-800 transition flex items-center gap-1.5';
+      }
+
+      function renderMusicTracks(tracks, taskId, providerName) {
+        el.musicTracksContainer.innerHTML = tracks.map((t, idx) => {
+          const title = escapeHtml(t.title || `Variasi Lagu #${idx + 1}`);
+          const tags = escapeHtml(t.tags || 'Suno AI Audio');
+          const safeUrl = escapeHtml(t.audioUrl);
+          return `
+            <div class="p-3 rounded-xl bg-white/10 border border-white/15 backdrop-blur-xs">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <div class="min-w-0">
+                  <p class="text-xs font-extrabold text-white truncate">🎵 ${title}</p>
+                  <p class="text-[10px] text-sky-200/80 truncate">${tags}</p>
+                </div>
+                <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-400/20 text-amber-200 shrink-0">Track ${idx + 1}</span>
+              </div>
+              <audio controls preload="metadata" src="${safeUrl}" class="w-full h-9 mb-2"></audio>
+              <div class="flex items-center gap-2">
+                <a href="${safeUrl}" download="${title.replace(/\s+/g, '-').toLowerCase()}.mp3" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-white text-[11px] font-extrabold transition">
+                  ⬇ Unduh MP3
+                </a>
+                <button type="button" data-copy-audio="${safeUrl}" class="px-2.5 py-1.5 rounded-lg bg-white/15 hover:bg-white/25 text-white text-[11px] font-bold transition">
+                  Salin URL
+                </button>
+              </div>
+            </div>`;
+        }).join('');
+        el.doneMusicTaskIdMeta.textContent = `Task ID: ${taskId} · ${providerName}`;
+      }
+
+      function renderHistory() {
+        el.historyCountBadge.textContent = String(state.history.length);
+        el.btnClearHistory.classList.toggle('hidden', state.history.length === 0);
+
+        if (state.history.length === 0) {
+          el.historyList.innerHTML = `
+            <div class="text-center py-8 px-4 rounded-2xl bg-slate-50 border border-dashed border-sky-200">
+              <p class="text-xs font-bold text-slate-600">Belum ada riwayat kreasi.</p>
+              <p class="text-[11px] text-slate-400 mt-1">Riwayat video, lagu &amp; edit gambar disimpan lokal di browser tanpa menyimpan API key.</p>
+            </div>`;
+          return;
+        }
+
+        el.historyList.innerHTML = state.history.map((item) => {
+          const t = item.type || 'video';
+          const badgeCfg = t === 'music'
+            ? { cls: 'bg-indigo-50 text-indigo-700 border-indigo-200', label: '🎵 Lagu' }
+            : t === 'image'
+              ? { cls: 'bg-teal-50 text-teal-700 border-teal-200', label: '🖼️ Gambar' }
+              : { cls: 'bg-sky-50 text-sky-800 border-sky-200', label: '🎬 Video' };
+          const stColor = item.status === 'success'
+            ? 'bg-emerald-100 text-emerald-700'
+            : item.status === 'fail'
+              ? 'bg-rose-100 text-rose-700'
+              : 'bg-sky-100 text-sky-700';
+          const stLabel = item.status === 'success' ? 'Selesai' : item.status === 'fail' ? 'Gagal' : 'Diproses';
+          const hasPlayable = t === 'music'
+            ? (Array.isArray(item.tracks) && item.tracks.length > 0)
+            : t === 'image'
+              ? Boolean(item.imageUrl)
+              : Boolean(item.videoUrl);
+          return `
+            <div class="p-3 rounded-2xl bg-white border border-sky-100 hover:border-sky-300 transition">
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 min-w-0">
+                  <span class="px-1.5 py-0.5 rounded-md text-[10px] font-extrabold border ${badgeCfg.cls}">${badgeCfg.label}</span>
+                  <span class="px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-600">${item.provider === 'kie' ? 'Kie AI' : 'Emix AI'}</span>
+                  <span class="text-xs font-bold text-[#0f294a] truncate">${escapeHtml(item.modelLabel)}</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${stColor} shrink-0">${stLabel}</span>
+              </div>
+              <div class="mt-1.5 flex items-center justify-between gap-2 text-[10px] text-slate-400 font-mono">
+                <span class="truncate">${escapeHtml(item.taskId)}</span>
+                <span class="font-sans shrink-0">${formatTime(item.createdAt)}</span>
+              </div>
+              <div class="mt-2.5 flex items-center gap-2">
+                ${hasPlayable ? `<button type="button" data-action="play" data-id="${escapeHtml(item.taskId)}" class="px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-700 text-white text-[11px] font-bold transition">${t === 'image' ? '👁 Lihat' : '▶ Putar'}</button>` : ''}
+                <button type="button" data-action="poll" data-id="${escapeHtml(item.taskId)}" class="px-2.5 py-1 rounded-lg bg-sky-50 hover:bg-sky-100 text-sky-800 text-[11px] font-bold transition">↻ Cek Status</button>
+                <button type="button" data-action="delete" data-id="${escapeHtml(item.taskId)}" class="ml-auto px-2 py-1 rounded-lg text-rose-500 hover:bg-rose-50 text-[11px] font-bold transition">Hapus</button>
+              </div>
+            </div>`;
+        }).join('');
+      }
+
+      function upsertHistory(entry) {
+        const idx = state.history.findIndex((h) => h.taskId === entry.taskId);
+        if (idx >= 0) {
+          state.history[idx] = { ...state.history[idx], ...entry };
+        } else {
+          state.history.unshift(entry);
+        }
+        saveHistory();
+        renderHistory();
+      }
+
+      // ============================================================
+      // VERCEL BACKEND PROXY & VERCEL BLOB AUTO-INTEGRATION
+      // ============================================================
+      const backend = {
+        proxyAvailable: false,
+        blobAvailable: false
+      };
+
+      async function detectVercelBackend() {
+        if (!window.location || !/^https?:$/i.test(window.location.protocol)) return;
+        try {
+          const res = await fetch('/api/proxy?health=1', { method: 'GET' });
+          if (res.ok) {
+            const info = await res.json().catch(() => ({}));
+            if (info && info.ok) {
+              backend.proxyAvailable = true;
+              backend.blobAvailable = Boolean(info.blobEnabled);
+            }
+          }
+        } catch {
+          // Running standalone without Vercel serverless backend
+        }
+      }
+
+      async function apiRequest(url, { method = 'GET', apiKey = '', body = null } = {}) {
+        if (backend.proxyAvailable) {
+          const res = await fetch('/api/proxy', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url, method, apiKey, body })
+          });
+          const data = await res.json().catch(() => ({}));
+          return { ok: res.ok, status: res.status, data };
+        }
+        const headers = {};
+        if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
+        if (body !== null) headers['Content-Type'] = 'application/json';
+        const res = await fetch(url, {
+          method,
+          headers,
+          body: body !== null ? JSON.stringify(body) : undefined
+        });
+        const data = await res.json().catch(() => ({}));
+        return { ok: res.ok, status: res.status, data };
+      }
+
+      async function uploadFileSmart(file, apiKey, folder) {
+        // Priority 1: Vercel Blob client-direct upload (works for BOTH Emix AI & Kie AI, up to 100 MB)
+        if (backend.blobAvailable) {
+          const mod = await import('https://cdn.jsdelivr.net/npm/@vercel/blob@0.27.3/client/+esm');
+          const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+          const blob = await mod.upload(`${folder}/${Date.now()}-${safeName}`, file, {
+            access: 'public',
+            handleUploadUrl: '/api/blob-upload'
+          });
+          if (blob && blob.url) return blob.url;
+          throw new Error('Upload ke Vercel Blob gagal mendapatkan URL.');
+        }
+        // Priority 2: Kie AI direct stream upload fallback
+        if (state.provider === 'kie') {
+          return await uploadFileToKie(file, apiKey, folder);
+        }
+        throw new Error('Backend Vercel Blob belum aktif. Gunakan tab "Gunakan URL ↗" atau hubungkan Vercel Blob Storage di dashboard Vercel.');
+      }
+
+      // ============================================================
+      // API INTEGRATIONS (KIE AI & EMIX AI — VIDEO, MUSIC, IMAGE)
+      // ============================================================
+      async function checkConnectionAndCredits() {
+        const key = el.apiKeyInput.value.trim();
+        state.apiKeys[state.provider] = key;
+        if (!key) {
+          showToast(`Masukkan API key ${PROVIDERS[state.provider].name} terlebih dahulu.`, 'warning');
+          el.apiKeyInput.focus();
+          return;
+        }
+
+        el.btnConnectApi.disabled = true;
+        el.btnConnectApi.textContent = 'Memeriksa...';
+        el.apiStatusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-sky-500 dot-pulse"></span><span>Memeriksa koneksi...</span>';
+
+        try {
+          if (state.provider === 'kie') {
+            const res = await apiRequest(PROVIDERS.kie.creditUrl, { method: 'GET', apiKey: key });
+            const json = res.data;
+            if (json && json.code === 200) {
+              state.connected.kie = true;
+              state.credits.kie = json.data;
+              renderProviderUI();
+              showToast(`Kie AI terhubung! Sisa kredit: ${json.data}`, 'success');
+            } else {
+              throw new Error((json && json.msg) || `Kode error API: ${json ? json.code : res.status}`);
+            }
+          } else {
+            if (key.length < 10) {
+              throw new Error('Format API key Emix AI tampak terlalu pendek.');
+            }
+            const testRes = await apiRequest('https://api.emix.ai/api/v1/client/tasks/ping-check', { method: 'GET', apiKey: key });
+            if (testRes.status === 401 || testRes.status === 403) {
+              throw new Error('API key Emix AI tidak valid atau ditolak (401/403).');
+            }
+            state.connected.emix = true;
+            state.credits.emix = 'Aktif';
+            renderProviderUI();
+            showToast('Emix AI terhubung! Siap buat video, lagu & edit gambar.', 'success');
+          }
+        } catch (err) {
+          state.connected[state.provider] = false;
+          renderProviderUI();
+          const msg = err && err.message ? err.message : 'Gagal menghubungi server penyedia API.';
+          const isNet = /Failed to fetch|NetworkError|Load failed/i.test(msg);
+          el.apiStatusBadge.className = 'inline-flex items-center gap-1.5 text-xs font-bold text-rose-600';
+          el.apiStatusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-rose-500"></span><span>Gagal terhubung</span>';
+          showToast(
+            isNet
+              ? `Koneksi langsung ke ${PROVIDERS[state.provider].name} dibatasi browser. Jika sudah di-deploy di Vercel dengan API route atau akses server diizinkan, koneksi akan berjalan normal.`
+              : `Gagal: ${msg}`,
+            'error'
+          );
+        } finally {
+          el.btnConnectApi.disabled = false;
+          el.btnConnectApi.innerHTML = '<span>⚡</span> Hubungkan API key';
+        }
+      }
+
+      async function uploadFileToKie(file, apiKey, folder) {
+        const fd = new FormData();
+        fd.append('file', file);
+        fd.append('uploadPath', folder);
+        const res = await fetch(PROVIDERS.kie.uploadUrl, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${apiKey}` },
+          body: fd
+        });
+        const json = await res.json();
+        if (json && json.code === 200 && json.data && json.data.downloadUrl) {
+          return json.data.downloadUrl;
+        }
+        throw new Error((json && json.msg) || 'Gagal mengunggah file ke server Kie AI.');
+      }
+
+      function extractMediaUrl(payload) {
+        if (!payload) return '';
+        const d = payload.data || payload;
+        if (d.resultJson) {
+          try {
+            const parsed = typeof d.resultJson === 'string' ? JSON.parse(d.resultJson) : d.resultJson;
+            if (Array.isArray(parsed.resultUrls) && parsed.resultUrls.length) return parsed.resultUrls[0];
+            if (Array.isArray(parsed.images) && parsed.images.length) return typeof parsed.images[0] === 'string' ? parsed.images[0] : (parsed.images[0].url || '');
+            if (parsed.video_url) return parsed.video_url;
+            if (parsed.image_url) return parsed.image_url;
+            if (parsed.url) return parsed.url;
+          } catch {
+            // ignore
+          }
+        }
+        if (Array.isArray(d.resultUrls) && d.resultUrls.length) return d.resultUrls[0];
+        if (Array.isArray(d.output) && d.output.length) return typeof d.output[0] === 'string' ? d.output[0] : (d.output[0].url || '');
+        if (d.output && (d.output.video_url || d.output.image_url || d.output.url)) return d.output.video_url || d.output.image_url || d.output.url;
+        if (d.videoUrl) return d.videoUrl;
+        if (d.video_url) return d.video_url;
+        if (d.imageUrl) return d.imageUrl;
+        if (d.image_url) return d.image_url;
+        return '';
+      }
+
+      function extractMusicTracks(payload) {
+        const tracks = [];
+        if (!payload) return tracks;
+        const d = payload.data || payload;
+
+        const pushTrack = (obj, fallbackIdx) => {
+          if (!obj) return;
+          if (typeof obj === 'string' && /^https?:\/\//i.test(obj)) {
+            tracks.push({ title: `Variasi Lagu #${fallbackIdx}`, tags: 'Suno AI', audioUrl: obj });
+            return;
+          }
+          const url = obj.audio_url || obj.audioUrl || obj.stream_audio_url || obj.streamAudioUrl || obj.source_audio_url || obj.url || '';
+          if (url && /^https?:\/\//i.test(url)) {
+            tracks.push({
+              title: obj.title || `Variasi Lagu #${fallbackIdx}`,
+              tags: obj.tags || obj.style || 'Suno AI',
+              audioUrl: url
+            });
+          }
+        };
+
+        if (d.resultJson) {
+          try {
+            const parsed = typeof d.resultJson === 'string' ? JSON.parse(d.resultJson) : d.resultJson;
+            const list = parsed.sunoData || parsed.data || parsed.tracks || parsed.resultUrls || parsed.audioUrls || [];
+            if (Array.isArray(list)) {
+              list.forEach((item, i) => pushTrack(item, i + 1));
+            } else if (parsed.audio_url || parsed.audioUrl) {
+              pushTrack(parsed, 1);
+            }
+          } catch {
+            // ignore
+          }
+        }
+
+        if (tracks.length === 0) {
+          const candidates = (d.response && d.response.sunoData) || d.sunoData || d.tracks || d.output || d.resultUrls || [];
+          if (Array.isArray(candidates)) {
+            candidates.forEach((item, i) => pushTrack(item, i + 1));
+          } else if (d.audio_url || d.audioUrl) {
+            pushTrack(d, 1);
+          }
+        }
+        return tracks;
+      }
+
+      function normalizeTaskStatus(payload) {
+        const d = (payload && payload.data) || payload || {};
+        const raw = String(d.state || d.status || '').toLowerCase();
+        if (['success', 'succeeded', 'completed', 'done', 'first_success'].includes(raw)) return 'success';
+        if (['fail', 'failed', 'error', 'cancelled', 'canceled', 'create_task_failed', 'generate_audio_failed'].includes(raw)) return 'fail';
+        if (['generating', 'processing', 'running', 'in_progress', 'text_success'].includes(raw)) return 'generating';
+        return raw || 'waiting';
+      }
+
+      async function pollTaskOnce(taskId, providerOverride = null, typeOverride = null) {
+        const provKey = providerOverride || state.provider;
+        const taskType = typeOverride || state.activeTaskType || state.studioMode;
+        const key = (state.apiKeys[provKey] || el.apiKeyInput.value).trim();
+        if (!key) {
+          showToast(`Masukkan API key ${PROVIDERS[provKey].name} untuk mengecek Task ID.`, 'warning');
+          return;
+        }
+
+        const p = PROVIDERS[provKey];
+        try {
+          const res = await apiRequest(p.getTaskUrl(taskId), { method: 'GET', apiKey: key });
+          const json = res.data;
+          if (json && json.code && json.code !== 200) {
+            throw new Error(json.msg || `Error API (${json.code})`);
+          }
+
+          const status = normalizeTaskStatus(json);
+
+          if (status === 'success') {
+            const mediaUrl = extractMediaUrl(json);
+
+            if (taskType === 'music') {
+              const tracks = extractMusicTracks(json);
+              if (tracks.length > 0) {
+                stopPolling();
+                state.activeTracks = tracks;
+                renderMusicTracks(tracks, taskId, p.name);
+                showPreviewState('done-music');
+                setRightStatus('SELESAI', 'done');
+                setStep(3);
+                upsertHistory({
+                  taskId,
+                  type: 'music',
+                  provider: provKey,
+                  modelLabel: `Suno ${state.musicModel.replace('_', '.')}`,
+                  status: 'success',
+                  tracks,
+                  createdAt: new Date().toISOString()
+                });
+                showToast(`Lagu selesai dibuat (${tracks.length} variasi)! Siap diputar & diunduh.`, 'success');
+                return;
+              }
+            } else if (taskType === 'image' && mediaUrl) {
+              stopPolling();
+              state.activeImageUrl = mediaUrl;
+              el.resultImagePreview.src = mediaUrl;
+              el.btnDownloadImage.href = mediaUrl;
+              el.btnDownloadImage.download = `seedream-edit-sofyan.${state.seedreamFormat}`;
+              el.doneImageTaskIdMeta.textContent = `Task ID: ${taskId} · ${p.name}`;
+              showPreviewState('done-image');
+              setRightStatus('SELESAI', 'done');
+              setStep(3);
+              upsertHistory({
+                taskId,
+                type: 'image',
+                provider: provKey,
+                modelLabel: getSeedreamShortLabel(state.seedreamModel),
+                status: 'success',
+                imageUrl: mediaUrl,
+                createdAt: new Date().toISOString()
+              });
+              showToast('Gambar berhasil diedit oleh Seedream 5.0!', 'success');
+              return;
+            } else if (mediaUrl) {
+              stopPolling();
+              state.activeVideoUrl = mediaUrl;
+              el.resultVideoPlayer.src = mediaUrl;
+              el.btnDownloadVideo.href = mediaUrl;
+              el.doneTaskIdMeta.textContent = `Task ID: ${taskId} · ${p.name}`;
+              showPreviewState('done');
+              setRightStatus('SELESAI', 'done');
+              setStep(3);
+              upsertHistory({
+                taskId,
+                type: 'video',
+                provider: provKey,
+                modelLabel: state.model.includes('3.0') ? 'Kling 3.0' : 'Kling 2.6',
+                mode: state.mode,
+                status: 'success',
+                videoUrl: mediaUrl,
+                createdAt: new Date().toISOString()
+              });
+              showToast('Video berhasil dibuat! Siap ditonton & diunduh.', 'success');
+              return;
+            }
+          }
+
+          if (status === 'fail') {
+            stopPolling();
+            const failMsg = (json.data && (json.data.failMsg || json.data.error || json.data.errorMessage)) || json.msg || 'Tugas gagal diproses oleh penyedia API.';
+            el.errorDetailText.textContent = failMsg;
+            showPreviewState('error');
+            setRightStatus('GAGAL', 'error');
+            upsertHistory({
+              taskId,
+              type: taskType,
+              provider: provKey,
+              modelLabel: taskType === 'music' ? `Suno ${state.musicModel.replace('_', '.')}` : taskType === 'image' ? getSeedreamShortLabel(state.seedreamModel) : (state.model.includes('3.0') ? 'Kling 3.0' : 'Kling 2.6'),
+              status: 'fail',
+              createdAt: new Date().toISOString()
+            });
+            showToast(`Tugas gagal: ${failMsg}`, 'error');
+          } else {
+            el.loadingSubtext.textContent = `Status penyedia (${p.name}): ${status} · Memantau otomatis setiap 5 detik...`;
+          }
+        } catch (err) {
+          const msg = err && err.message ? err.message : 'Gagal memeriksa status task.';
+          el.loadingSubtext.textContent = `Kendala cek status: ${msg}`;
+        }
+      }
+
+      function startPolling(taskId, providerKey, taskType = 'video') {
+        stopPolling();
+        state.activeTaskId = taskId;
+        state.activeTaskType = taskType;
+        state.rightTab = 'result';
+        renderRightTabs();
+        el.activeTaskIdText.textContent = `Task ID: ${taskId}`;
+        el.loadingHeadline.textContent = taskType === 'music'
+          ? `Meracik lagu di ${PROVIDERS[providerKey].name}...`
+          : taskType === 'image'
+            ? `Mengedit gambar dengan Seedream 5.0 di ${PROVIDERS[providerKey].name}...`
+            : `Memproses video di ${PROVIDERS[providerKey].name}...`;
+        el.loadingSubtext.textContent = 'Status: dalam antrean...';
+        showPreviewState('loading');
+        setRightStatus('MEMPROSES', 'working');
+        setStep(2);
+
+        pollTaskOnce(taskId, providerKey, taskType);
+        state.pollTimer = setInterval(() => {
+          pollTaskOnce(taskId, providerKey, taskType);
+        }, 5000);
+      }
+
+      function stopPolling() {
+        if (state.pollTimer) {
+          clearInterval(state.pollTimer);
+          state.pollTimer = null;
+        }
+      }
+
+      // ============================================================
+      // GENERATE VIDEO (KLING MOTION CONTROL)
+      // ============================================================
+      async function handleGenerateVideo() {
+        const key = el.apiKeyInput.value.trim();
+        state.apiKeys[state.provider] = key;
+
+        if (!key) {
+          showToast(`Tempel API key ${PROVIDERS[state.provider].name} terlebih dahulu.`, 'warning');
+          el.apiKeyInput.focus();
+          return;
+        }
+
+        let finalImgUrl = '';
+        let finalVidUrl = '';
+
+        if (state.imgSourceMode === 'url') {
+          finalImgUrl = el.imgUrlInput.value.trim();
+          if (!/^https?:\/\//i.test(finalImgUrl)) {
+            showToast('Masukkan URL gambar karakter yang valid (diawali https://).', 'warning');
+            return;
+          }
+        } else if (!state.imgFile) {
+          showToast('Unggah gambar karakter terlebih dahulu (atau gunakan tab URL).', 'warning');
+          return;
+        }
+
+        if (state.vidSourceMode === 'url') {
+          finalVidUrl = el.vidUrlInput.value.trim();
+          if (!/^https?:\/\//i.test(finalVidUrl)) {
+            showToast('Masukkan URL video referensi yang valid (diawali https://).', 'warning');
+            return;
+          }
+        } else if (!state.vidFile) {
+          showToast('Unggah video referensi gerakan terlebih dahulu (atau gunakan tab URL).', 'warning');
+          return;
+        }
+
+        if (state.provider === 'emix' && !backend.blobAvailable && (state.imgSourceMode === 'upload' || state.vidSourceMode === 'upload')) {
+          showToast('Untuk upload file lokal ke Emix AI, aktifkan Vercel Blob saat deploy atau gunakan tab "Gunakan URL ↗".', 'warning');
+          return;
+        }
+
+        state.isGenerating = true;
+        el.btnGenerateVideo.disabled = true;
+        el.btnGenerateText.textContent = 'Mengirim tugas...';
+        state.rightTab = 'result';
+        renderRightTabs();
+        showPreviewState('loading');
+        setRightStatus('MEMPROSES', 'working');
+        setStep(2);
+
+        try {
+          if (state.imgSourceMode === 'upload' && state.imgFile) {
+            el.loadingHeadline.textContent = backend.blobAvailable ? 'Mengunggah gambar karakter ke Vercel Blob...' : 'Mengunggah gambar karakter ke Kie AI...';
+            finalImgUrl = await uploadFileSmart(state.imgFile, key, 'sofyan-motion/images');
+          }
+          if (state.vidSourceMode === 'upload' && state.vidFile) {
+            el.loadingHeadline.textContent = backend.blobAvailable ? 'Mengunggah video referensi ke Vercel Blob...' : 'Mengunggah video referensi ke Kie AI...';
+            finalVidUrl = await uploadFileSmart(state.vidFile, key, 'sofyan-motion/videos');
+          }
+
+          el.loadingHeadline.textContent = `Membuat tugas di ${PROVIDERS[state.provider].name}...`;
+
+          const inputPayload = {
+            prompt: el.promptInput.value.trim(),
+            input_urls: [finalImgUrl],
+            video_urls: [finalVidUrl],
+            mode: state.mode,
+            character_orientation: state.orientation
+          };
+          if (state.model.includes('3.0')) {
+            inputPayload.background_source = state.background;
+          }
+
+          const res = await apiRequest(PROVIDERS[state.provider].createTaskUrl, {
+            method: 'POST',
+            apiKey: key,
+            body: { model: state.model, input: inputPayload }
+          });
+
+          const json = res.data;
+          if (json && json.code && json.code !== 200) {
+            throw new Error(json.msg || `Permintaan ditolak (kode ${json.code})`);
+          }
+
+          const taskId = (json.data && (json.data.taskId || json.data.task_id || json.data.id)) || json.taskId || json.id;
+          if (!taskId) {
+            throw new Error('Server tidak mengembalikan Task ID. Periksa kembali API key & parameter.');
+          }
+
+          upsertHistory({
+            taskId,
+            type: 'video',
+            provider: state.provider,
+            modelLabel: state.model.includes('3.0') ? 'Kling 3.0' : 'Kling 2.6',
+            mode: state.mode,
+            status: 'waiting',
+            videoUrl: '',
+            createdAt: new Date().toISOString()
+          });
+
+          showToast(`Tugas video dibuat! Task ID: ${taskId}`, 'success');
+          startPolling(taskId, state.provider, 'video');
+        } catch (err) {
+          stopPolling();
+          const msg = err && err.message ? err.message : 'Terjadi kesalahan saat menghubungi API.';
+          const isNet = /Failed to fetch|NetworkError|Load failed/i.test(msg);
+          el.errorDetailText.textContent = isNet
+            ? `Browser tidak dapat menjangkau endpoint ${PROVIDERS[state.provider].name} secara langsung. Pastikan koneksi internet aktif atau deploy di Vercel dengan API route proxy.`
+            : msg;
+          showPreviewState('error');
+          setRightStatus('GAGAL', 'error');
+          showToast('Gagal membuat video.', 'error');
+        } finally {
+          state.isGenerating = false;
+          el.btnGenerateVideo.disabled = false;
+          el.btnGenerateText.textContent = 'Generate video';
+        }
+      }
+
+      // ============================================================
+      // GENERATE MUSIC (SUNO API VIA KIE AI & EMIX AI)
+      // ============================================================
+      async function handleGenerateMusic() {
+        const key = el.apiKeyInput.value.trim();
+        state.apiKeys[state.provider] = key;
+
+        if (!key) {
+          showToast(`Tempel API key ${PROVIDERS[state.provider].name} terlebih dahulu.`, 'warning');
+          el.apiKeyInput.focus();
+          return;
+        }
+
+        const isCover = state.musicMode === 'cover';
+        const apiModelName = isCover ? 'ai-music-api/upload-and-cover-audio' : 'ai-music-api/generate';
+        const inputPayload = {
+          custom_mode: state.musicMode !== 'simple',
+          instrumental: state.musicInstrumental,
+          model: state.musicModel
+        };
+
+        let coverAudioUrlFinal = '';
+
+        if (state.musicMode === 'simple') {
+          const simplePrompt = el.musicSimplePrompt.value.trim();
+          const simpleStyle = el.musicSimpleStyle.value.trim();
+          if (!simplePrompt && !simpleStyle) {
+            showToast('Isi ide atau deskripsi lagu terlebih dahulu.', 'warning');
+            el.musicSimplePrompt.focus();
+            return;
+          }
+          if (simplePrompt) inputPayload.prompt = simplePrompt;
+          if (simpleStyle) inputPayload.style = simpleStyle;
+        } else if (state.musicMode === 'custom') {
+          const title = el.musicTitleInput.value.trim();
+          const style = el.musicStyleInput.value.trim();
+          const lyrics = el.musicLyricsInput.value.trim();
+          const neg = el.musicNegativeTags.value.trim();
+          const gender = el.musicVocalGender.value;
+
+          if (!title) {
+            showToast('Judul lagu wajib diisi pada Mode Kustom.', 'warning');
+            el.musicTitleInput.focus();
+            return;
+          }
+          if (!style && !lyrics && !neg) {
+            showToast('Isi minimal Gaya Musik atau Lirik Lagu.', 'warning');
+            el.musicStyleInput.focus();
+            return;
+          }
+          inputPayload.title = title;
+          if (style) inputPayload.style = style;
+          if (!state.musicInstrumental && lyrics) {
+            inputPayload.lyrics = lyrics;
+            inputPayload.prompt = lyrics;
+          }
+          if (neg) inputPayload.negative_tags = neg;
+          if (gender && !state.musicInstrumental) inputPayload.vocal_gender = gender;
+        } else {
+          // Cover Lagu (Upload Audio)
+          if (state.coverAudioSourceMode === 'url') {
+            coverAudioUrlFinal = el.coverAudioUrlInput.value.trim();
+            if (!/^https?:\/\//i.test(coverAudioUrlFinal)) {
+              showToast('Masukkan URL audio lagu sumber yang valid (diawali https://).', 'warning');
+              return;
+            }
+          } else if (!state.coverAudioFile) {
+            showToast('Unggah file audio lagu sumber terlebih dahulu (atau gunakan tab URL).', 'warning');
+            return;
+          }
+          if (state.provider === 'emix' && !backend.blobAvailable && state.coverAudioSourceMode === 'upload') {
+            showToast('Untuk upload audio lokal ke Emix AI, aktifkan Vercel Blob saat deploy atau gunakan tab "Gunakan URL ↗".', 'warning');
+            return;
+          }
+          const cStyle = el.coverStyleInput.value.trim();
+          const cTitle = el.coverTitleInput.value.trim();
+          const cLyrics = el.coverLyricsInput.value.trim();
+          const cGender = el.coverVocalGender.value;
+          if (!cStyle && !cLyrics) {
+            showToast('Isi Gaya / Aransemen Cover Baru terlebih dahulu.', 'warning');
+            el.coverStyleInput.focus();
+            return;
+          }
+          if (cStyle) inputPayload.style = cStyle;
+          if (cTitle) inputPayload.title = cTitle;
+          if (!state.musicInstrumental && cLyrics) {
+            inputPayload.lyrics = cLyrics;
+            inputPayload.prompt = cLyrics;
+          }
+          if (cGender && !state.musicInstrumental) inputPayload.vocal_gender = cGender;
+          inputPayload.audio_weight = parseFloat(el.coverAudioWeight.value) || 0.65;
+          inputPayload.style_weight = parseFloat(el.coverStyleWeight.value) || 0.65;
+        }
+
+        state.isGenerating = true;
+        el.btnGenerateMusic.disabled = true;
+        el.btnGenerateMusicText.textContent = isCover ? 'Mengirim tugas cover...' : 'Mengirim tugas lagu...';
+        state.rightTab = 'result';
+        renderRightTabs();
+        showPreviewState('loading');
+        el.loadingHeadline.textContent = isCover
+          ? `Memproses cover lagu Suno di ${PROVIDERS[state.provider].name}...`
+          : `Membuat tugas lagu Suno di ${PROVIDERS[state.provider].name}...`;
+        setRightStatus('MEMPROSES', 'working');
+        setStep(2);
+
+        try {
+          if (isCover) {
+            if (state.coverAudioSourceMode === 'upload' && state.coverAudioFile) {
+              el.loadingHeadline.textContent = backend.blobAvailable ? 'Mengunggah audio lagu ke Vercel Blob...' : 'Mengunggah audio lagu sumber ke Kie AI...';
+              coverAudioUrlFinal = await uploadFileSmart(state.coverAudioFile, key, 'sofyan-suno/audio');
+            }
+            inputPayload.upload_url = coverAudioUrlFinal;
+          }
+
+          const res = await apiRequest(PROVIDERS[state.provider].createTaskUrl, {
+            method: 'POST',
+            apiKey: key,
+            body: {
+              model: apiModelName,
+              input: inputPayload
+            }
+          });
+
+          const json = res.data;
+          if (json && json.code && json.code !== 200) {
+            throw new Error(json.msg || `Permintaan lagu ditolak (kode ${json.code})`);
+          }
+
+          const taskId = (json.data && (json.data.taskId || json.data.task_id || json.data.id)) || json.taskId || json.id;
+          if (!taskId) {
+            throw new Error('Server tidak mengembalikan Task ID lagu. Periksa kembali API key & parameter.');
+          }
+
+          upsertHistory({
+            taskId,
+            type: 'music',
+            provider: state.provider,
+            modelLabel: `${isCover ? 'Cover ' : ''}Suno ${state.musicModel.replace('_', '.')}`,
+            status: 'waiting',
+            tracks: [],
+            createdAt: new Date().toISOString()
+          });
+
+          showToast(`Tugas ${isCover ? 'cover lagu' : 'lagu'} dibuat! Task ID: ${taskId}`, 'success');
+          startPolling(taskId, state.provider, 'music');
+        } catch (err) {
+          stopPolling();
+          const msg = err && err.message ? err.message : 'Terjadi kesalahan saat menghubungi API musik.';
+          const isNet = /Failed to fetch|NetworkError|Load failed/i.test(msg);
+          el.errorDetailText.textContent = isNet
+            ? `Browser tidak dapat menjangkau endpoint ${PROVIDERS[state.provider].name} secara langsung. Pastikan koneksi internet aktif atau deploy di Vercel dengan API route proxy.`
+            : msg;
+          showPreviewState('error');
+          setRightStatus('GAGAL', 'error');
+          showToast(isCover ? 'Gagal membuat cover lagu.' : 'Gagal membuat lagu.', 'error');
+        } finally {
+          state.isGenerating = false;
+          el.btnGenerateMusic.disabled = false;
+          el.btnGenerateMusicText.textContent = state.musicMode === 'cover' ? 'Cover lagu AI sekarang' : 'Generate lagu AI';
+        }
+      }
+
+      // ============================================================
+      // EDIT IMAGE (SEEDREAM 5.0 VIA KIE AI & EMIX AI)
+      // ============================================================
+      async function handleGenerateImage() {
+        const key = el.apiKeyInput.value.trim();
+        state.apiKeys[state.provider] = key;
+
+        if (!key) {
+          showToast(`Tempel API key ${PROVIDERS[state.provider].name} terlebih dahulu.`, 'warning');
+          el.apiKeyInput.focus();
+          return;
+        }
+
+        const promptText = el.seedreamPromptInput.value.trim();
+        if (!promptText) {
+          showToast('Tulis instruksi edit gambar terlebih dahulu.', 'warning');
+          el.seedreamPromptInput.focus();
+          return;
+        }
+
+        let mainImgUrl = '';
+        if (state.editImgSourceMode === 'url') {
+          mainImgUrl = el.editImgUrlInput.value.trim();
+          if (!/^https?:\/\//i.test(mainImgUrl)) {
+            showToast('Masukkan URL gambar yang valid (diawali https://).', 'warning');
+            return;
+          }
+        } else if (!state.editImgFile) {
+          showToast('Unggah gambar yang ingin diedit (atau gunakan tab URL).', 'warning');
+          return;
+        }
+
+        if (state.provider === 'emix' && !backend.blobAvailable && state.editImgSourceMode === 'upload') {
+          showToast('Untuk upload gambar lokal ke Emix AI, aktifkan Vercel Blob saat deploy atau gunakan tab "Gunakan URL ↗".', 'warning');
+          return;
+        }
+
+        state.isGenerating = true;
+        el.btnGenerateImage.disabled = true;
+        el.btnGenerateImageText.textContent = 'Mengirim tugas edit...';
+        state.rightTab = 'result';
+        renderRightTabs();
+        showPreviewState('loading');
+        setRightStatus('MEMPROSES', 'working');
+        setStep(2);
+
+        try {
+          if (state.editImgSourceMode === 'upload' && state.editImgFile) {
+            el.loadingHeadline.textContent = backend.blobAvailable ? 'Mengunggah gambar ke Vercel Blob...' : 'Mengunggah gambar ke Kie AI...';
+            mainImgUrl = await uploadFileSmart(state.editImgFile, key, 'sofyan-seedream/images');
+          }
+
+          const imageUrls = [mainImgUrl];
+          const extraRef = el.editRefUrlInput.value.trim();
+          if (/^https?:\/\//i.test(extraRef)) {
+            imageUrls.push(extraRef);
+          }
+
+          el.loadingHeadline.textContent = `Mengirim ke ${getSeedreamShortLabel(state.seedreamModel)} (${PROVIDERS[state.provider].name})...`;
+
+          const res = await apiRequest(PROVIDERS[state.provider].createTaskUrl, {
+            method: 'POST',
+            apiKey: key,
+            body: {
+              model: state.seedreamModel,
+              input: {
+                prompt: promptText,
+                image_urls: imageUrls,
+                aspect_ratio: state.seedreamAspect,
+                quality: state.seedreamQuality,
+                output_format: state.seedreamFormat,
+                nsfw_checker: true
+              }
+            }
+          });
+
+          const json = res.data;
+          if (json && json.code && json.code !== 200) {
+            throw new Error(json.msg || `Permintaan edit gambar ditolak (kode ${json.code})`);
+          }
+
+          const taskId = (json.data && (json.data.taskId || json.data.task_id || json.data.id)) || json.taskId || json.id;
+          if (!taskId) {
+            throw new Error('Server tidak mengembalikan Task ID. Periksa kembali API key & parameter.');
+          }
+
+          upsertHistory({
+            taskId,
+            type: 'image',
+            provider: state.provider,
+            modelLabel: getSeedreamShortLabel(state.seedreamModel),
+            status: 'waiting',
+            imageUrl: '',
+            createdAt: new Date().toISOString()
+          });
+
+          showToast(`Tugas edit Seedream 5.0 dibuat! Task ID: ${taskId}`, 'success');
+          startPolling(taskId, state.provider, 'image');
+        } catch (err) {
+          stopPolling();
+          const msg = err && err.message ? err.message : 'Terjadi kesalahan saat menghubungi API Seedream 5.0.';
+          const isNet = /Failed to fetch|NetworkError|Load failed/i.test(msg);
+          el.errorDetailText.textContent = isNet
+            ? `Browser tidak dapat menjangkau endpoint ${PROVIDERS[state.provider].name} secara langsung. Pastikan koneksi internet aktif atau deploy di Vercel dengan API route proxy.`
+            : msg;
+          showPreviewState('error');
+          setRightStatus('GAGAL', 'error');
+          showToast('Gagal mengedit gambar.', 'error');
+        } finally {
+          state.isGenerating = false;
+          el.btnGenerateImage.disabled = false;
+          el.btnGenerateImageText.textContent = 'Edit gambar Seedream 5.0';
+        }
+      }
+
+      // ============================================================
+      // MEDIA HANDLERS
+      // ============================================================
+      function handleImageFile(file) {
+        if (!file) return;
+        if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+          showToast('Format gambar harus JPG atau PNG.', 'warning');
+          return;
+        }
+        if (file.size > 10 * 1024 * 1024) {
+          showToast('Ukuran gambar maksimal 10 MB.', 'warning');
+          return;
+        }
+        if (state.imgObjectUrl) URL.revokeObjectURL(state.imgObjectUrl);
+        state.imgFile = file;
+        state.imgObjectUrl = URL.createObjectURL(file);
+        el.imgPreviewThumb.src = state.imgObjectUrl;
+        el.imgFileName.textContent = `${file.name} (${formatBytes(file.size)})`;
+        el.imgEmptyState.classList.add('hidden');
+        el.imgPreviewState.classList.remove('hidden');
+        setStep(1);
+      }
+
+      function clearImageFile(e) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        if (state.imgObjectUrl) URL.revokeObjectURL(state.imgObjectUrl);
+        state.imgFile = null;
+        state.imgObjectUrl = '';
+        el.imgFileInput.value = '';
+        el.imgPreviewThumb.src = '';
+        el.imgEmptyState.classList.remove('hidden');
+        el.imgPreviewState.classList.add('hidden');
+      }
+
+      function handleEditImageFile(file) {
+        if (!file) return;
+        if (!['image/jpeg', 'image/png', 'image/webp', 'image/jpg'].includes(file.type)) {
+          showToast('Format gambar harus JPG, PNG, atau WEBP.', 'warning');
+          return;
+        }
+        if (file.size > 10 * 1024 * 1024) {
+          showToast('Ukuran gambar maksimal 10 MB.', 'warning');
+          return;
+        }
+        if (state.editImgObjectUrl) URL.revokeObjectURL(state.editImgObjectUrl);
+        state.editImgFile = file;
+        state.editImgObjectUrl = URL.createObjectURL(file);
+        el.editImgPreviewThumb.src = state.editImgObjectUrl;
+        el.editImgFileName.textContent = `${file.name} (${formatBytes(file.size)})`;
+        el.editImgEmptyState.classList.add('hidden');
+        el.editImgPreviewState.classList.remove('hidden');
+        setStep(1);
+      }
+
+      function clearEditImageFile(e) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        if (state.editImgObjectUrl) URL.revokeObjectURL(state.editImgObjectUrl);
+        state.editImgFile = null;
+        state.editImgObjectUrl = '';
+        el.editImgFileInput.value = '';
+        el.editImgPreviewThumb.src = '';
+        el.editImgEmptyState.classList.remove('hidden');
+        el.editImgPreviewState.classList.add('hidden');
+      }
+
+      function handleVideoFile(file) {
+        if (!file) return;
+        const validExt = /\.(mp4|mov)$/i.test(file.name);
+        if (!validExt && !['video/mp4', 'video/quicktime'].includes(file.type)) {
+          showToast('Format video harus MP4 atau MOV.', 'warning');
+          return;
+        }
+        if (file.size > 100 * 1024 * 1024) {
+          showToast('Ukuran video maksimal 100 MB.', 'warning');
+          return;
+        }
+        if (state.vidObjectUrl) URL.revokeObjectURL(state.vidObjectUrl);
+        state.vidFile = file;
+        state.vidObjectUrl = URL.createObjectURL(file);
+        el.vidPreviewPlayer.src = state.vidObjectUrl;
+        el.vidFileName.textContent = `${file.name} (${formatBytes(file.size)})`;
+        el.vidEmptyState.classList.add('hidden');
+        el.vidPreviewState.classList.remove('hidden');
+        el.vidPreviewPlayer.onloadedmetadata = () => {
+          const dur = el.vidPreviewPlayer.duration;
+          state.vidDurationSec = dur;
+          if (dur > 30 && state.mvhdActive) {
+            el.vidDurationBadge.textContent = `Durasi ${dur.toFixed(1)} dtk · Auto-Patch MVHD siap potong ke 30 dtk`;
+            el.vidDurationBadge.className = 'text-[10px] font-bold text-amber-700 text-left mt-0.5';
+          } else if (dur < 3) {
+            el.vidDurationBadge.textContent = `Durasi ${dur.toFixed(1)} dtk · Minimal 3 detik disarankan API`;
+            el.vidDurationBadge.className = 'text-[10px] font-bold text-rose-600 text-left mt-0.5';
+          } else {
+            el.vidDurationBadge.textContent = `Durasi ${dur.toFixed(1)} detik · Memenuhi syarat API`;
+            el.vidDurationBadge.className = 'text-[10px] font-semibold text-emerald-700 text-left mt-0.5';
+          }
+        };
+        setStep(1);
+      }
+
+      function clearVideoFile(e) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        if (state.vidObjectUrl) URL.revokeObjectURL(state.vidObjectUrl);
+        state.vidFile = null;
+        state.vidObjectUrl = '';
+        state.vidDurationSec = null;
+        el.vidFileInput.value = '';
+        el.vidPreviewPlayer.src = '';
+        el.vidDurationBadge.textContent = '';
+        el.vidEmptyState.classList.remove('hidden');
+        el.vidPreviewState.classList.add('hidden');
+      }
+
+      function setImgMode(mode) {
+        state.imgSourceMode = mode;
+        const isUp = mode === 'upload';
+        el.imgUploadBox.classList.toggle('hidden', !isUp);
+        el.imgUrlBox.classList.toggle('hidden', isUp);
+        el.imgTabUpload.className = isUp
+          ? 'img-mode-tab py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition'
+          : 'img-mode-tab py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition';
+        el.imgTabUrl.className = !isUp
+          ? 'img-mode-tab py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition'
+          : 'img-mode-tab py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition';
+      }
+
+      function setEditImgMode(mode) {
+        state.editImgSourceMode = mode;
+        const isUp = mode === 'upload';
+        el.editImgUploadBox.classList.toggle('hidden', !isUp);
+        el.editImgUrlBox.classList.toggle('hidden', isUp);
+        el.editImgTabUpload.className = isUp
+          ? 'py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition'
+          : 'py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition';
+        el.editImgTabUrl.className = !isUp
+          ? 'py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition'
+          : 'py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition';
+      }
+
+      function setVidMode(mode) {
+        state.vidSourceMode = mode;
+        const isUp = mode === 'upload';
+        el.vidUploadBox.classList.toggle('hidden', !isUp);
+        el.vidUrlBox.classList.toggle('hidden', isUp);
+        el.vidTabUpload.className = isUp
+          ? 'vid-mode-tab py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition'
+          : 'vid-mode-tab py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition';
+        el.vidTabUrl.className = !isUp
+          ? 'vid-mode-tab py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition'
+          : 'vid-mode-tab py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition';
+      }
+
+      // ============================================================
+      // MODALS
+      // ============================================================
+      function openModal(type) {
+        if (type === 'upload') {
+          el.modalTitle.textContent = 'Panduan URL & Upload Media Penyedia API';
+          el.modalBody.innerHTML = `
+            <p><strong>1. Kie AI (Upload Langsung &amp; URL):</strong> Mendukung upload langsung file lokal via <code>kieai.redpandaai.co/api/file-stream-upload</code> untuk Motion Control &amp; Seedream 5.0, maupun tautan publik.</p>
+            <p><strong>2. Emix AI (Tautan Publik):</strong> Gunakan tab <strong>Gunakan URL ↗</strong> dengan tautan langsung ke file gambar/video publik (misalnya dari Vercel Blob, Cloudflare R2, atau CDN publik).</p>
+            <p><strong>3. Batasan Media:</strong> Gambar JPG/PNG maks. 10 MB; Video MP4/MOV durasi 3–30 detik maks. 100 MB; sisi terpendek &gt;340 px.</p>
+          `;
+        } else {
+          el.modalTitle.textContent = 'Panduan Singkat 3-in-1 Studio Ajaib';
+          el.modalBody.innerHTML = `
+            <ol class="list-decimal pl-5 space-y-2">
+              <li>Pilih penyedia API (<strong>Emix AI</strong> atau <strong>Kie AI</strong>), lalu tempel 1 API key yang sama dan klik <strong>⚡ Hubungkan API key</strong>.</li>
+              <li><strong>🎬 Motion Control Video:</strong> Pakai Kling 3.0/2.6 untuk menghidupkan gambar karakter mengikuti gerakan video referensi.</li>
+              <li><strong>🎵 Bikin Lagu AI (Suno):</strong> Pilih Suno V6–V4, mode Simpel (otomatis) atau Kustom (tulis lirik sendiri), vokal atau instrumental.</li>
+              <li><strong>🖼️ Edit Gambar (Seedream 5.0):</strong> Pilih Seedream 5.0 Pro/Flash/Lite, unggah foto, tulis instruksi edit, lalu hasilnya bisa diunduh atau langsung dikirim ke Motion Control!</li>
+            </ol>
+          `;
+        }
+        el.guideModal.classList.remove('hidden');
+        el.guideModal.classList.add('flex');
+      }
+
+      function closeModal() {
+        el.guideModal.classList.add('hidden');
+        el.guideModal.classList.remove('flex');
+      }
+
+      // ============================================================
+      // EVENT LISTENERS
+      // ============================================================
+      [el.studioTabVideo, el.studioTabMusic, el.studioTabImage].forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.studioMode = btn.dataset.studio;
+          renderStudioModeUI();
+          if (!state.pollTimer && !state.activeVideoUrl && state.activeTracks.length === 0 && !state.activeImageUrl) {
+            showPreviewState('idle');
+          }
+        });
+      });
+
+      [el.tabProviderEmix, el.tabProviderKie].forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.apiKeys[state.provider] = el.apiKeyInput.value.trim();
+          state.provider = btn.dataset.provider;
+          renderProviderUI();
+        });
+      });
+
+      el.apiKeyInput.addEventListener('input', () => {
+        state.apiKeys[state.provider] = el.apiKeyInput.value.trim();
+      });
+
+      el.btnToggleApiKey.addEventListener('click', () => {
+        const isPass = el.apiKeyInput.type === 'password';
+        el.apiKeyInput.type = isPass ? 'text' : 'password';
+        el.eyeIconOpen.classList.toggle('hidden', isPass);
+        el.eyeIconClosed.classList.toggle('hidden', !isPass);
+      });
+
+      el.btnConnectApi.addEventListener('click', checkConnectionAndCredits);
+      el.btnRefreshCredits.addEventListener('click', checkConnectionAndCredits);
+
+      // Video controls
+      el.modelSelect.addEventListener('change', () => {
+        state.model = el.modelSelect.value;
+        renderConfigSummary();
+      });
+
+      [el.btnMode720, el.btnMode1080].forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.mode = btn.dataset.mode;
+          renderConfigSummary();
+        });
+      });
+
+      el.orientationSelect.addEventListener('change', () => {
+        state.orientation = el.orientationSelect.value;
+        renderConfigSummary();
+      });
+
+      el.btnOrientationInfo.addEventListener('click', () => {
+        el.orientationTooltip.classList.toggle('hidden');
+      });
+
+      el.backgroundSelect.addEventListener('change', () => {
+        state.background = el.backgroundSelect.value;
+      });
+
+      el.mvhdToggle.addEventListener('change', () => {
+        state.mvhdActive = el.mvhdToggle.checked;
+        el.mvhdBadge.textContent = state.mvhdActive ? 'AKTIF' : 'NONAKTIF';
+        el.mvhdBadge.className = state.mvhdActive
+          ? 'inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-200 text-emerald-800'
+          : 'inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-slate-200 text-slate-600';
+      });
+
+      // Music controls
+      el.musicModelSelect.addEventListener('change', () => {
+        state.musicModel = el.musicModelSelect.value;
+        renderConfigSummary();
+      });
+
+      [el.btnMusicVocal, el.btnMusicInst].forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.musicInstrumental = btn.dataset.inst === 'true';
+          renderMusicControlsUI();
+          renderConfigSummary();
+        });
+      });
+
+      const COVER_STYLE_PRESETS = {
+        akustik: 'Warm Acoustic Cafe Cover, Fingerstyle Guitar, Soft Percussion, Intimate Clear Vocals, 92 BPM',
+        koplo: 'Modern Indonesian Dangdut Koplo Cover, Energetic Kendang Kempul, Catchy Keyboard Melody, 136 BPM',
+        piano: 'Emotional Piano Ballad Cover, Lush Strings, Expressive Slow Vocals, Studio Reverb, 76 BPM',
+        lofi: 'Lo-Fi Chillhop Remix Cover, Warm Rhodes Chords, Relaxed Boom-Bap Beat, Cozy Night Vibe, 82 BPM'
+      };
+
+      function setCoverAudioMode(mode) {
+        state.coverAudioSourceMode = mode;
+        const isUp = mode === 'upload';
+        el.coverAudioUploadBox.classList.toggle('hidden', !isUp);
+        el.coverAudioUrlBox.classList.toggle('hidden', isUp);
+        el.coverAudioTabUpload.className = isUp
+          ? 'py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition'
+          : 'py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition';
+        el.coverAudioTabUrl.className = !isUp
+          ? 'py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition'
+          : 'py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition';
+      }
+
+      function handleCoverAudioFile(file) {
+        if (!file) return;
+        const validExt = /\.(mp3|wav|m4a)$/i.test(file.name);
+        if (!validExt && !file.type.startsWith('audio/')) {
+          showToast('Format audio harus MP3, WAV, atau M4A.', 'warning');
+          return;
+        }
+        if (file.size > 50 * 1024 * 1024) {
+          showToast('Ukuran file audio maksimal 50 MB.', 'warning');
+          return;
+        }
+        if (state.coverAudioObjectUrl) URL.revokeObjectURL(state.coverAudioObjectUrl);
+        state.coverAudioFile = file;
+        state.coverAudioObjectUrl = URL.createObjectURL(file);
+        el.coverAudioPreviewPlayer.src = state.coverAudioObjectUrl;
+        el.coverAudioFileName.textContent = `${file.name} (${formatBytes(file.size)})`;
+        el.coverAudioEmptyState.classList.add('hidden');
+        el.coverAudioPreviewState.classList.remove('hidden');
+        setStep(1);
+      }
+
+      function clearCoverAudioFile(e) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        if (state.coverAudioObjectUrl) URL.revokeObjectURL(state.coverAudioObjectUrl);
+        state.coverAudioFile = null;
+        state.coverAudioObjectUrl = '';
+        el.coverAudioFileInput.value = '';
+        el.coverAudioPreviewPlayer.src = '';
+        el.coverAudioEmptyState.classList.remove('hidden');
+        el.coverAudioPreviewState.classList.add('hidden');
+      }
+
+      [el.btnMusicModeSimple, el.btnMusicModeCustom, el.btnMusicModeCover].forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.musicMode = btn.dataset.musicMode;
+          state.musicCustomMode = state.musicMode !== 'simple';
+          renderMusicControlsUI();
+          renderConfigSummary();
+        });
+      });
+
+      el.coverAudioTabUpload.addEventListener('click', () => setCoverAudioMode('upload'));
+      el.coverAudioTabUrl.addEventListener('click', () => setCoverAudioMode('url'));
+      el.coverAudioFileInput.addEventListener('change', (e) => handleCoverAudioFile(e.target.files[0]));
+      el.btnClearCoverAudio.addEventListener('click', clearCoverAudioFile);
+      el.coverAudioDropzone.addEventListener('dragover', (e) => { e.preventDefault(); el.coverAudioDropzone.classList.add('drag-over'); });
+      el.coverAudioDropzone.addEventListener('dragleave', () => el.coverAudioDropzone.classList.remove('drag-over'));
+      el.coverAudioDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        el.coverAudioDropzone.classList.remove('drag-over');
+        if (e.dataTransfer.files[0]) handleCoverAudioFile(e.dataTransfer.files[0]);
+      });
+      el.coverAudioUrlInput.addEventListener('input', () => {
+        state.coverAudioUrl = el.coverAudioUrlInput.value.trim();
+      });
+      el.coverTitleInput.addEventListener('input', () => {
+        el.coverTitleCounter.textContent = `${el.coverTitleInput.value.length}/80`;
+      });
+      el.coverStyleInput.addEventListener('input', () => {
+        el.coverStyleCounter.textContent = `${el.coverStyleInput.value.length}/1000`;
+      });
+      el.coverLyricsInput.addEventListener('input', () => {
+        el.coverLyricsCounter.textContent = `${el.coverLyricsInput.value.length}/5000`;
+      });
+      el.coverAudioWeight.addEventListener('input', () => {
+        el.coverAudioWeightVal.textContent = parseFloat(el.coverAudioWeight.value).toFixed(2);
+      });
+      el.coverStyleWeight.addEventListener('input', () => {
+        el.coverStyleWeightVal.textContent = parseFloat(el.coverStyleWeight.value).toFixed(2);
+      });
+      document.querySelectorAll('.cover-preset-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const styleText = COVER_STYLE_PRESETS[btn.dataset.coverPreset];
+          if (!styleText) return;
+          el.coverStyleInput.value = styleText;
+          el.coverStyleCounter.textContent = `${styleText.length}/1000`;
+          showToast(`Gaya cover "${btn.textContent.replace('✨ ', '')}" diterapkan!`, 'info');
+        });
+      });
+
+      el.musicSimplePrompt.addEventListener('input', () => {
+        el.musicSimpleCounter.textContent = `${el.musicSimplePrompt.value.length}/3000`;
+      });
+      el.musicTitleInput.addEventListener('input', () => {
+        el.musicTitleCounter.textContent = `${el.musicTitleInput.value.length}/80`;
+      });
+      el.musicStyleInput.addEventListener('input', () => {
+        el.musicStyleCounter.textContent = `${el.musicStyleInput.value.length}/1000`;
+      });
+      el.musicLyricsInput.addEventListener('input', () => {
+        el.musicLyricsCounter.textContent = `${el.musicLyricsInput.value.length}/5000`;
+      });
+
+      el.btnInsertLyricsTemplate.addEventListener('click', () => {
+        el.musicLyricsInput.value = LYRICS_TEMPLATE;
+        el.musicLyricsCounter.textContent = `${LYRICS_TEMPLATE.length}/5000`;
+        showToast('Contoh struktur lirik [Verse/Chorus] diterapkan!', 'info');
+      });
+
+      document.querySelectorAll('.music-preset-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const preset = MUSIC_PRESETS[btn.dataset.preset];
+          if (!preset) return;
+          state.musicInstrumental = Boolean(preset.instrumental);
+          if (!state.musicCustomMode) {
+            el.musicSimplePrompt.value = preset.prompt;
+            el.musicSimpleCounter.textContent = `${preset.prompt.length}/3000`;
+            el.musicSimpleStyle.value = preset.style;
+          } else {
+            el.musicTitleInput.value = preset.title;
+            el.musicTitleCounter.textContent = `${preset.title.length}/80`;
+            el.musicStyleInput.value = preset.style;
+            el.musicStyleCounter.textContent = `${preset.style.length}/1000`;
+          }
+          renderMusicControlsUI();
+          renderConfigSummary();
+          showToast(`Preset "${btn.textContent}" diterapkan!`, 'info');
+        });
+      });
+
+      // Seedream 5.0 Image Edit controls
+      el.seedreamModelSelect.addEventListener('change', () => {
+        state.seedreamModel = el.seedreamModelSelect.value;
+        renderConfigSummary();
+      });
+
+      el.seedreamAspectSelect.addEventListener('change', () => {
+        state.seedreamAspect = el.seedreamAspectSelect.value;
+        renderConfigSummary();
+      });
+
+      [el.btnSeedreamBasic, el.btnSeedreamHigh].forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.seedreamQuality = btn.dataset.quality;
+          renderImageControlsUI();
+          renderConfigSummary();
+        });
+      });
+
+      [el.btnSeedreamPng, el.btnSeedreamJpg].forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.seedreamFormat = btn.dataset.fmt;
+          renderImageControlsUI();
+          renderConfigSummary();
+        });
+      });
+
+      el.editImgTabUpload.addEventListener('click', () => setEditImgMode('upload'));
+      el.editImgTabUrl.addEventListener('click', () => setEditImgMode('url'));
+
+      el.editImgFileInput.addEventListener('change', (e) => handleEditImageFile(e.target.files[0]));
+      el.btnClearEditImg.addEventListener('click', clearEditImageFile);
+      el.editImgDropzone.addEventListener('dragover', (e) => { e.preventDefault(); el.editImgDropzone.classList.add('drag-over'); });
+      el.editImgDropzone.addEventListener('dragleave', () => el.editImgDropzone.classList.remove('drag-over'));
+      el.editImgDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        el.editImgDropzone.classList.remove('drag-over');
+        if (e.dataTransfer.files[0]) handleEditImageFile(e.dataTransfer.files[0]);
+      });
+
+      el.editImgUrlInput.addEventListener('input', () => {
+        const val = el.editImgUrlInput.value.trim();
+        state.editImgUrl = val;
+        if (/^https?:\/\//i.test(val)) {
+          el.editImgUrlPreview.src = val;
+          el.editImgUrlPreviewWrap.classList.remove('hidden');
+        } else {
+          el.editImgUrlPreviewWrap.classList.add('hidden');
+        }
+      });
+
+      el.seedreamPromptInput.addEventListener('input', () => {
+        el.seedreamPromptCounter.textContent = `${el.seedreamPromptInput.value.length}/2995`;
+      });
+
+      document.querySelectorAll('.img-preset-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const text = IMAGE_EDIT_PRESETS[btn.dataset.imgPreset];
+          if (!text) return;
+          el.seedreamPromptInput.value = text;
+          el.seedreamPromptCounter.textContent = `${text.length}/2995`;
+          showToast(`Preset "${btn.textContent.replace('✨ ', '')}" diterapkan!`, 'info');
+        });
+      });
+
+      // Video Media tabs & inputs
+      el.imgTabUpload.addEventListener('click', () => setImgMode('upload'));
+      el.imgTabUrl.addEventListener('click', () => setImgMode('url'));
+      el.vidTabUpload.addEventListener('click', () => setVidMode('upload'));
+      el.vidTabUrl.addEventListener('click', () => setVidMode('url'));
+
+      el.imgFileInput.addEventListener('change', (e) => handleImageFile(e.target.files[0]));
+      el.btnClearImg.addEventListener('click', clearImageFile);
+      el.imgDropzone.addEventListener('dragover', (e) => { e.preventDefault(); el.imgDropzone.classList.add('drag-over'); });
+      el.imgDropzone.addEventListener('dragleave', () => el.imgDropzone.classList.remove('drag-over'));
+      el.imgDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        el.imgDropzone.classList.remove('drag-over');
+        if (e.dataTransfer.files[0]) handleImageFile(e.dataTransfer.files[0]);
+      });
+
+      el.imgUrlInput.addEventListener('input', () => {
+        const val = el.imgUrlInput.value.trim();
+        state.imgUrl = val;
+        if (/^https?:\/\//i.test(val)) {
+          el.imgUrlPreview.src = val;
+          el.imgUrlPreviewWrap.classList.remove('hidden');
+        } else {
+          el.imgUrlPreviewWrap.classList.add('hidden');
+        }
+      });
+
+      el.vidFileInput.addEventListener('change', (e) => handleVideoFile(e.target.files[0]));
+      el.btnClearVid.addEventListener('click', clearVideoFile);
+      el.vidDropzone.addEventListener('dragover', (e) => { e.preventDefault(); el.vidDropzone.classList.add('drag-over'); });
+      el.vidDropzone.addEventListener('dragleave', () => el.vidDropzone.classList.remove('drag-over'));
+      el.vidDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        el.vidDropzone.classList.remove('drag-over');
+        if (e.dataTransfer.files[0]) handleVideoFile(e.dataTransfer.files[0]);
+      });
+
+      el.vidUrlInput.addEventListener('input', () => {
+        state.vidUrl = el.vidUrlInput.value.trim();
+      });
+
+      el.directUploadCheckbox.addEventListener('change', () => {
+        state.directUpload = el.directUploadCheckbox.checked;
+      });
+
+      el.promptInput.addEventListener('input', () => {
+        state.prompt = el.promptInput.value;
+        el.promptCounter.textContent = `${state.prompt.length}/2500`;
+      });
+
+      el.btnConsistencyPrompt.addEventListener('click', () => {
+        el.promptInput.value = CONSISTENCY_PROMPT;
+        state.prompt = CONSISTENCY_PROMPT;
+        el.promptCounter.textContent = `${state.prompt.length}/2500`;
+        showToast('Prompt konsistensi karakter diterapkan!', 'info');
+      });
+
+      // Generate buttons & Reset
+      el.btnGenerateVideo.addEventListener('click', handleGenerateVideo);
+      el.btnGenerateMusic.addEventListener('click', handleGenerateMusic);
+      el.btnGenerateImage.addEventListener('click', handleGenerateImage);
+
+      el.btnResetForm.addEventListener('click', () => {
+        stopPolling();
+        if (state.studioMode === 'video') {
+          clearImageFile();
+          clearVideoFile();
+          el.imgUrlInput.value = '';
+          el.imgUrlPreviewWrap.classList.add('hidden');
+          el.vidUrlInput.value = '';
+          el.promptInput.value = '';
+          state.prompt = '';
+          el.promptCounter.textContent = '0/2500';
+          state.model = 'kling-3.0/motion-control';
+          el.modelSelect.value = state.model;
+          state.mode = '720p';
+          state.orientation = 'video';
+          el.orientationSelect.value = state.orientation;
+          state.background = 'input_image';
+          el.backgroundSelect.value = state.background;
+        } else if (state.studioMode === 'music') {
+          state.musicModel = 'V6';
+          el.musicModelSelect.value = 'V6';
+          state.musicMode = 'simple';
+          state.musicCustomMode = false;
+          state.musicInstrumental = false;
+          clearCoverAudioFile();
+          el.coverAudioUrlInput.value = '';
+          el.coverTitleInput.value = '';
+          el.coverTitleCounter.textContent = '0/80';
+          el.coverStyleInput.value = '';
+          el.coverStyleCounter.textContent = '0/1000';
+          el.coverLyricsInput.value = '';
+          el.coverLyricsCounter.textContent = '0/5000';
+          el.coverVocalGender.value = '';
+          el.coverAudioWeight.value = '0.65';
+          el.coverAudioWeightVal.textContent = '0.65';
+          el.coverStyleWeight.value = '0.65';
+          el.coverStyleWeightVal.textContent = '0.65';
+          el.musicSimplePrompt.value = '';
+          el.musicSimpleCounter.textContent = '0/3000';
+          el.musicSimpleStyle.value = '';
+          el.musicTitleInput.value = '';
+          el.musicTitleCounter.textContent = '0/80';
+          el.musicStyleInput.value = '';
+          el.musicStyleCounter.textContent = '0/1000';
+          el.musicLyricsInput.value = '';
+          el.musicLyricsCounter.textContent = '0/5000';
+          el.musicNegativeTags.value = '';
+          el.musicVocalGender.value = '';
+          renderMusicControlsUI();
+        } else {
+          clearEditImageFile();
+          el.editImgUrlInput.value = '';
+          el.editImgUrlPreviewWrap.classList.add('hidden');
+          el.editRefUrlInput.value = '';
+          el.seedreamPromptInput.value = '';
+          el.seedreamPromptCounter.textContent = '0/2995';
+          state.seedreamModel = 'seedream/5-pro-image-to-image';
+          el.seedreamModelSelect.value = state.seedreamModel;
+          state.seedreamAspect = '1:1';
+          el.seedreamAspectSelect.value = '1:1';
+          state.seedreamQuality = 'basic';
+          state.seedreamFormat = 'png';
+          renderImageControlsUI();
+        }
+        state.activeVideoUrl = '';
+        state.activeTracks = [];
+        state.activeImageUrl = '';
+        showPreviewState('idle');
+        setRightStatus('SIAP', 'ready');
+        setStep(1);
+        renderConfigSummary();
+        showToast('Formulir berhasil direset.', 'info');
+      });
+
+      // Right Panel Tabs & Actions
+      el.tabOutputResult.addEventListener('click', () => {
+        state.rightTab = 'result';
+        renderRightTabs();
+      });
+      el.tabOutputHistory.addEventListener('click', () => {
+        state.rightTab = 'history';
+        renderRightTabs();
+      });
+
+      el.btnCopyActiveTaskId.addEventListener('click', () => copyText(state.activeTaskId, 'Task ID'));
+      el.btnPollNow.addEventListener('click', () => {
+        if (state.activeTaskId) pollTaskOnce(state.activeTaskId, state.provider, state.activeTaskType);
+      });
+      el.btnStopPolling.addEventListener('click', () => {
+        stopPolling();
+        showPreviewState('idle');
+        setRightStatus('SIAP', 'ready');
+        setStep(1);
+        showToast('Pemantauan dihentikan. Task ID masih tersimpan di tab Riwayat.', 'info');
+      });
+      el.btnCopyVideoUrl.addEventListener('click', () => copyText(state.activeVideoUrl, 'URL Video'));
+      el.btnCopyImageUrl.addEventListener('click', () => copyText(state.activeImageUrl, 'URL Gambar'));
+      el.btnSendImageToMotion.addEventListener('click', () => {
+        if (!state.activeImageUrl) return;
+        state.studioMode = 'video';
+        renderStudioModeUI();
+        setImgMode('url');
+        el.imgUrlInput.value = state.activeImageUrl;
+        state.imgUrl = state.activeImageUrl;
+        el.imgUrlPreview.src = state.activeImageUrl;
+        el.imgUrlPreviewWrap.classList.remove('hidden');
+        showToast('Gambar hasil Seedream 5.0 dimasukkan ke Gambar Karakter Motion Control!', 'success');
+      });
+      el.musicTracksContainer.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-copy-audio]');
+        if (btn) copyText(btn.dataset.copyAudio, 'URL Audio');
+      });
+      el.btnDismissError.addEventListener('click', () => {
+        showPreviewState('idle');
+        setRightStatus('SIAP', 'ready');
+        setStep(1);
+      });
+
+      // Manual Task ID tracking
+      el.btnCheckManualTask.addEventListener('click', () => {
+        const tid = el.manualTaskIdInput.value.trim();
+        if (!tid) {
+          showToast('Tempel Task ID terlebih dahulu.', 'warning');
+          el.manualTaskIdInput.focus();
+          return;
+        }
+        startPolling(tid, state.provider, state.studioMode);
+      });
+
+      // History Delegation
+      el.historyList.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-action]');
+        if (!btn) return;
+        const action = btn.dataset.action;
+        const id = btn.dataset.id;
+        const item = state.history.find((h) => h.taskId === id);
+        if (!item) return;
+
+        if (action === 'play') {
+          stopPolling();
+          state.activeTaskId = item.taskId;
+          state.rightTab = 'result';
+          renderRightTabs();
+          if (item.type === 'music' && Array.isArray(item.tracks) && item.tracks.length > 0) {
+            state.activeTracks = item.tracks;
+            renderMusicTracks(item.tracks, item.taskId, item.provider === 'kie' ? 'Kie AI' : 'Emix AI');
+            showPreviewState('done-music');
+          } else if (item.type === 'image' && item.imageUrl) {
+            state.activeImageUrl = item.imageUrl;
+            el.resultImagePreview.src = item.imageUrl;
+            el.btnDownloadImage.href = item.imageUrl;
+            el.doneImageTaskIdMeta.textContent = `Task ID: ${item.taskId} · ${item.provider === 'kie' ? 'Kie AI' : 'Emix AI'}`;
+            showPreviewState('done-image');
+          } else if (item.videoUrl) {
+            state.activeVideoUrl = item.videoUrl;
+            el.resultVideoPlayer.src = item.videoUrl;
+            el.btnDownloadVideo.href = item.videoUrl;
+            el.doneTaskIdMeta.textContent = `Task ID: ${item.taskId} · ${item.provider === 'kie' ? 'Kie AI' : 'Emix AI'}`;
+            showPreviewState('done');
+          }
+          setRightStatus('SELESAI', 'done');
+          setStep(3);
+        } else if (action === 'poll') {
+          state.provider = item.provider;
+          renderProviderUI();
+          startPolling(item.taskId, item.provider, item.type || 'video');
+        } else if (action === 'delete') {
+          state.history = state.history.filter((h) => h.taskId !== id);
+          saveHistory();
+          renderHistory();
+          showToast('Item riwayat dihapus.', 'info');
+        }
+      });
+
+      el.btnClearHistory.addEventListener('click', () => {
+        state.history = [];
+        saveHistory();
+        renderHistory();
+        showToast('Seluruh riwayat lokal dibersihkan.', 'info');
+      });
+
+      // Modal Triggers
+      el.btnOpenGuideHeader.addEventListener('click', () => openModal('guide'));
+      el.btnOpenGuideTips.addEventListener('click', () => openModal('guide'));
+      el.btnOpenUploadGuide.addEventListener('click', () => openModal('upload'));
+      el.btnCloseModal.addEventListener('click', closeModal);
+      el.btnCloseModalBottom.addEventListener('click', closeModal);
+      el.guideModal.addEventListener('click', (e) => {
+        if (e.target === el.guideModal) closeModal();
+      });
+
+      // ============================================================
+      // INIT
+      // ============================================================
+      loadHistory();
+      detectVercelBackend();
+      renderStudioModeUI();
+      renderMusicControlsUI();
+      renderImageControlsUI();
+      renderRightTabs();
+      renderHistory();
+      showPreviewState('idle');
+      setRightStatus('SIAP', 'ready');
+      setStep(1);
+    })();
+  </script>
+</body>
+</html>
