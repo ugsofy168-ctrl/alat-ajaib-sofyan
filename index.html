@@ -793,48 +793,109 @@
               <h3 class="text-xs font-extrabold tracking-wider uppercase text-sky-900">GAMBAR SUMBER &amp; INSTRUKSI EDIT</h3>
             </div>
 
-            <div class="p-3.5 rounded-2xl bg-slate-50/80 border border-sky-100 mb-3.5">
-              <div class="flex items-center justify-between gap-2 mb-1">
-                <span class="text-xs font-extrabold text-[#0f294a]">Gambar utama yang akan diedit <span class="text-rose-500">*</span></span>
-                <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-50 text-rose-600">Wajib</span>
-              </div>
-              <p class="text-[11px] text-slate-500 mb-2.5">Foto produk, karakter, atau adegan yang ingin diubah oleh Seedream 5.0</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <!-- Gambar 1: Orang / Subjek Utama -->
+              <div class="p-3.5 rounded-2xl bg-slate-50/80 border border-sky-100 flex flex-col">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <span class="text-xs font-extrabold text-[#0f294a]">1. Gambar Orang / Subjek <span class="text-rose-500">*</span></span>
+                  <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-50 text-rose-600">Wajib</span>
+                </div>
+                <p class="text-[11px] text-slate-500 mb-2.5">Foto orang, model, atau karakter utama</p>
 
-              <div class="grid grid-cols-2 gap-1 p-1 rounded-xl bg-sky-100/60 mb-2.5">
-                <button id="editImgTabUpload" type="button" class="py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition">Upload file</button>
-                <button id="editImgTabUrl" type="button" class="py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition">Gunakan URL ↗</button>
-              </div>
+                <div class="grid grid-cols-2 gap-1 p-1 rounded-xl bg-sky-100/60 mb-2.5">
+                  <button id="editImgTabUpload" type="button" class="py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition">Upload file</button>
+                  <button id="editImgTabUrl" type="button" class="py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition">Gunakan URL ↗</button>
+                </div>
 
-              <div id="editImgUploadBox">
-                <label id="editImgDropzone" for="editImgFileInput" class="dropzone min-h-[130px] rounded-xl border-2 border-dashed border-sky-200 bg-white hover:border-sky-400 cursor-pointer flex flex-col items-center justify-center p-3 text-center">
-                  <div id="editImgEmptyState" class="flex flex-col items-center">
-                    <div class="w-9 h-9 rounded-full bg-sky-50 text-sky-600 flex items-center justify-center mb-2">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <div id="editImgUploadBox" class="flex-1 flex flex-col">
+                  <label id="editImgDropzone" for="editImgFileInput" class="dropzone flex-1 min-h-[138px] rounded-xl border-2 border-dashed border-sky-200 bg-white hover:border-sky-400 cursor-pointer flex flex-col items-center justify-center p-3 text-center">
+                    <div id="editImgEmptyState" class="flex flex-col items-center">
+                      <div class="w-9 h-9 rounded-full bg-sky-50 text-sky-600 flex items-center justify-center mb-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                      </div>
+                      <span class="text-xs font-bold text-sky-800">Unggah foto orang</span>
+                      <span class="text-[10px] text-slate-400 mt-1">JPG, PNG, WEBP · Maks. 10 MB</span>
                     </div>
-                    <span class="text-xs font-bold text-sky-800">Klik atau seret gambar untuk diedit</span>
-                    <span class="text-[10px] text-slate-400 mt-1">JPG, PNG, WEBP · Maks. 10 MB (Upload langsung via Kie AI)</span>
-                  </div>
-                  <div id="editImgPreviewState" class="hidden w-full">
-                    <img id="editImgPreviewThumb" src="" alt="Preview gambar yang akan diedit" class="w-full h-36 object-contain rounded-lg bg-slate-100 border border-sky-100" />
-                    <div class="mt-2 flex items-center justify-between gap-2 text-left">
-                      <span id="editImgFileName" class="text-[11px] font-semibold text-slate-700 truncate"></span>
-                      <button id="btnClearEditImg" type="button" class="text-[11px] font-bold text-rose-600 hover:underline shrink-0">Hapus</button>
+                    <div id="editImgPreviewState" class="hidden w-full">
+                      <img id="editImgPreviewThumb" src="" alt="Preview gambar 1 orang" class="w-full h-32 object-contain rounded-lg bg-slate-100 border border-sky-100" />
+                      <div class="mt-2 flex items-center justify-between gap-2 text-left">
+                        <span id="editImgFileName" class="text-[11px] font-semibold text-slate-700 truncate"></span>
+                        <button id="btnClearEditImg" type="button" class="text-[11px] font-bold text-rose-600 hover:underline shrink-0">Hapus</button>
+                      </div>
                     </div>
-                  </div>
-                </label>
-                <input id="editImgFileInput" type="file" accept="image/jpeg,image/png,image/webp,image/jpg" class="hidden" />
-              </div>
+                  </label>
+                  <input id="editImgFileInput" type="file" accept="image/jpeg,image/png,image/webp,image/jpg" class="hidden" />
+                </div>
 
-              <div id="editImgUrlBox" class="hidden space-y-2">
-                <input id="editImgUrlInput" type="url" placeholder="https://contoh.com/foto-asli.png" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2 text-xs text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400" />
-                <div id="editImgUrlPreviewWrap" class="hidden rounded-xl overflow-hidden border border-sky-100 bg-white">
-                  <img id="editImgUrlPreview" src="" alt="Preview URL gambar edit" class="w-full h-32 object-contain bg-slate-100" />
+                <div id="editImgUrlBox" class="hidden flex-1 flex flex-col gap-2">
+                  <input id="editImgUrlInput" type="url" placeholder="https://contoh.com/foto-orang.png" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2 text-xs text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400" />
+                  <div id="editImgUrlPreviewWrap" class="hidden rounded-xl overflow-hidden border border-sky-100 bg-white">
+                    <img id="editImgUrlPreview" src="" alt="Preview URL gambar 1" class="w-full h-28 object-contain bg-slate-100" />
+                  </div>
                 </div>
               </div>
 
-              <div class="mt-3">
-                <label for="editRefUrlInput" class="block text-[11px] font-bold text-[#0f294a] mb-1">URL Gambar Referensi Tambahan <span class="font-normal text-slate-400">(Opsional · Multi-image fusion)</span></label>
-                <input id="editRefUrlInput" type="url" placeholder="https://contoh.com/baju-atau-latar.png (opsional)" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2 text-xs text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400" />
+              <!-- Gambar 2: Produk / Referensi Tambahan -->
+              <div class="p-3.5 rounded-2xl bg-slate-50/80 border border-sky-100 flex flex-col">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <span class="text-xs font-extrabold text-[#0f294a]">2. Gambar Produk / Ref</span>
+                  <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-sky-100 text-sky-700">Opsional</span>
+                </div>
+                <p class="text-[11px] text-slate-500 mb-2.5">Foto produk, baju, atau objek yang dipegang/dipakai</p>
+
+                <div class="grid grid-cols-2 gap-1 p-1 rounded-xl bg-sky-100/60 mb-2.5">
+                  <button id="editRefTabUpload" type="button" class="py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition">Upload file</button>
+                  <button id="editRefTabUrl" type="button" class="py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition">Gunakan URL ↗</button>
+                </div>
+
+                <div id="editRefUploadBox" class="flex-1 flex flex-col">
+                  <label id="editRefDropzone" for="editRefFileInput" class="dropzone flex-1 min-h-[138px] rounded-xl border-2 border-dashed border-sky-200 bg-white hover:border-sky-400 cursor-pointer flex flex-col items-center justify-center p-3 text-center">
+                    <div id="editRefEmptyState" class="flex flex-col items-center">
+                      <div class="w-9 h-9 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mb-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                      </div>
+                      <span class="text-xs font-bold text-sky-800">Unggah foto produk</span>
+                      <span class="text-[10px] text-slate-400 mt-1">JPG, PNG, WEBP · Maks. 10 MB</span>
+                    </div>
+                    <div id="editRefPreviewState" class="hidden w-full">
+                      <img id="editRefPreviewThumb" src="" alt="Preview gambar 2 produk" class="w-full h-32 object-contain rounded-lg bg-slate-100 border border-sky-100" />
+                      <div class="mt-2 flex items-center justify-between gap-2 text-left">
+                        <span id="editRefFileName" class="text-[11px] font-semibold text-slate-700 truncate"></span>
+                        <button id="btnClearEditRef" type="button" class="text-[11px] font-bold text-rose-600 hover:underline shrink-0">Hapus</button>
+                      </div>
+                    </div>
+                  </label>
+                  <input id="editRefFileInput" type="file" accept="image/jpeg,image/png,image/webp,image/jpg" class="hidden" />
+                </div>
+
+                <div id="editRefUrlBox" class="hidden flex-1 flex flex-col gap-2">
+                  <input id="editRefUrlInput" type="url" placeholder="https://contoh.com/foto-produk.png" class="w-full rounded-xl border border-sky-200 bg-white px-3 py-2 text-xs text-[#0f294a] focus:outline-none focus:ring-2 focus:ring-sky-400" />
+                  <div id="editRefUrlPreviewWrap" class="hidden rounded-xl overflow-hidden border border-sky-100 bg-white">
+                    <img id="editRefUrlPreview" src="" alt="Preview URL gambar 2 produk" class="w-full h-28 object-contain bg-slate-100" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pilihan Interaksi 2 Gambar (Orang + Produk) -->
+            <div class="mb-4 p-3.5 rounded-2xl bg-gradient-to-r from-sky-50 to-teal-50/70 border border-sky-200/80">
+              <div class="flex items-center justify-between gap-2 mb-2 flex-wrap">
+                <span class="text-xs font-extrabold text-[#0f294a]">🤝 Gaya Gabung 2 Gambar (Orang + Produk)</span>
+                <span class="text-[10px] font-semibold text-sky-700">Klik untuk isi instruksi otomatis</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" data-img-preset="hold_product" class="img-preset-btn py-2 px-2.5 rounded-xl bg-white border border-sky-200 hover:border-sky-500 hover:bg-sky-50 text-[11px] font-bold text-[#0f294a] text-left transition shadow-2xs">
+                  ✋ Pegang Produk (Natural)
+                </button>
+                <button type="button" data-img-preset="affiliate_review" class="img-preset-btn py-2 px-2.5 rounded-xl bg-white border border-sky-200 hover:border-sky-500 hover:bg-sky-50 text-[11px] font-bold text-[#0f294a] text-left transition shadow-2xs">
+                  🛍️ Pamerkan Produk (Affiliate)
+                </button>
+                <button type="button" data-img-preset="wear_product" class="img-preset-btn py-2 px-2.5 rounded-xl bg-white border border-sky-200 hover:border-sky-500 hover:bg-sky-50 text-[11px] font-bold text-[#0f294a] text-left transition shadow-2xs">
+                  👕 Pakai Produk (Baju/Aksesoris)
+                </button>
+                <button type="button" data-img-preset="use_product" class="img-preset-btn py-2 px-2.5 rounded-xl bg-white border border-sky-200 hover:border-sky-500 hover:bg-sky-50 text-[11px] font-bold text-[#0f294a] text-left transition shadow-2xs">
+                  ✨ Demo Memakai Produk
+                </button>
               </div>
             </div>
 
@@ -1168,6 +1229,10 @@
       };
 
       const IMAGE_EDIT_PRESETS = {
+        hold_product: 'Pertahankan wajah, ekspresi, gaya rambut, dan pakaian orang pada gambar pertama secara akurat. Buat orang tersebut memegang produk dari gambar kedua secara natural di depan dada dengan jari tangan realistis sambil tersenyum ke arah kamera. Pertahankan bentuk, warna, ukuran proporsional, dan detail label produk secara persis dengan pencahayaan menyatu dan kualitas foto HD.',
+        affiliate_review: 'Pertahankan identitas wajah dan penampilan orang pada gambar pertama. Buat orang tersebut memegang dan memamerkan produk dari gambar kedua menghadap jelas ke arah kamera bergaya kreator review TikTok Affiliate yang ramah dan meyakinkan, pencahayaan studio cerah, detail kemasan dan tulisan produk tajam serta realistis.',
+        wear_product: 'Pertahankan wajah, gaya rambut, warna kulit, dan pose tubuh orang pada gambar pertama. Pakaikan produk pakaian atau aksesoris dari gambar kedua ke tubuh orang tersebut dengan ukuran pas, lipatan kain natural, tekstur bahan akurat, serta pencahayaan dan bayangan yang menyatu realistis.',
+        use_product: 'Pertahankan wajah dan identitas orang pada gambar pertama. Buat orang tersebut sedang menggunakan atau mendemokan produk dari gambar kedua secara natural dan elegan, pertahankan desain, warna, dan detail label produk dengan akurat serta pencahayaan fotorealistik.',
         studio: 'Pertahankan wajah, pose, dan detail utama subjek tetap identik. Ganti latar belakang menjadi studio fotografi bersih bernuansa putih-biru lembut dengan pencahayaan softbox profesional dan bayangan natural.',
         affiliate: 'Pertahankan bentuk dan label produk secara akurat. Tempatkan produk di atas meja kayu estetik minimalis dengan cahaya matahari pagi yang hangat, depth of field halus, kualitas foto komersial HD.',
         outfit: 'Pertahankan wajah, gaya rambut, dan pose tubuh subjek tetap sama. Ubah pakaian menjadi kemeja kasual modern yang rapi dan pas di badan dengan tekstur kain realistis serta pencahayaan menyatu.',
@@ -1220,6 +1285,10 @@
         editImgFile: null,
         editImgObjectUrl: '',
         editImgUrl: '',
+        editRefSourceMode: 'upload',
+        editRefFile: null,
+        editRefObjectUrl: '',
+        editRefUrl: '',
         // Shared output & polling
         rightTab: 'result',
         activeTaskId: '',
@@ -1378,7 +1447,20 @@
         editImgUrlInput: document.getElementById('editImgUrlInput'),
         editImgUrlPreviewWrap: document.getElementById('editImgUrlPreviewWrap'),
         editImgUrlPreview: document.getElementById('editImgUrlPreview'),
+        editRefTabUpload: document.getElementById('editRefTabUpload'),
+        editRefTabUrl: document.getElementById('editRefTabUrl'),
+        editRefUploadBox: document.getElementById('editRefUploadBox'),
+        editRefUrlBox: document.getElementById('editRefUrlBox'),
+        editRefDropzone: document.getElementById('editRefDropzone'),
+        editRefFileInput: document.getElementById('editRefFileInput'),
+        editRefEmptyState: document.getElementById('editRefEmptyState'),
+        editRefPreviewState: document.getElementById('editRefPreviewState'),
+        editRefPreviewThumb: document.getElementById('editRefPreviewThumb'),
+        editRefFileName: document.getElementById('editRefFileName'),
+        btnClearEditRef: document.getElementById('btnClearEditRef'),
         editRefUrlInput: document.getElementById('editRefUrlInput'),
+        editRefUrlPreviewWrap: document.getElementById('editRefUrlPreviewWrap'),
+        editRefUrlPreview: document.getElementById('editRefUrlPreview'),
         seedreamPromptInput: document.getElementById('seedreamPromptInput'),
         seedreamPromptCounter: document.getElementById('seedreamPromptCounter'),
         btnGenerateImage: document.getElementById('btnGenerateImage'),
@@ -2533,7 +2615,8 @@
           return;
         }
 
-        if (state.provider === 'emix' && !backend.blobAvailable && state.editImgSourceMode === 'upload') {
+        const hasLocalRef = state.editRefSourceMode === 'upload' && Boolean(state.editRefFile);
+        if (state.provider === 'emix' && !backend.blobAvailable && (state.editImgSourceMode === 'upload' || hasLocalRef)) {
           showToast('Untuk upload gambar lokal ke Emix AI, aktifkan Vercel Blob saat deploy atau gunakan tab "Gunakan URL ↗".', 'warning');
           return;
         }
@@ -2554,9 +2637,15 @@
           }
 
           const imageUrls = [mainImgUrl];
-          const extraRef = el.editRefUrlInput.value.trim();
-          if (/^https?:\/\//i.test(extraRef)) {
-            imageUrls.push(extraRef);
+          if (state.editRefSourceMode === 'upload' && state.editRefFile) {
+            el.loadingHeadline.textContent = backend.blobAvailable ? 'Mengunggah gambar 2 (produk) ke Vercel Blob...' : 'Mengunggah gambar 2 (produk) ke Kie AI...';
+            const uploadedRefUrl = await uploadFileSmart(state.editRefFile, key, 'sofyan-seedream/products');
+            if (uploadedRefUrl) imageUrls.push(uploadedRefUrl);
+          } else if (state.editRefSourceMode === 'url') {
+            const extraRef = el.editRefUrlInput.value.trim();
+            if (/^https?:\/\//i.test(extraRef)) {
+              imageUrls.push(extraRef);
+            }
           }
 
           el.loadingHeadline.textContent = `Mengirim ke ${getSeedreamShortLabel(state.seedreamModel)} (${PROVIDERS[state.provider].name})...`;
@@ -2685,6 +2774,53 @@
         el.editImgPreviewThumb.src = '';
         el.editImgEmptyState.classList.remove('hidden');
         el.editImgPreviewState.classList.add('hidden');
+      }
+
+      function handleEditRefFile(file) {
+        if (!file) return;
+        if (!['image/jpeg', 'image/png', 'image/webp', 'image/jpg'].includes(file.type)) {
+          showToast('Format gambar produk harus JPG, PNG, atau WEBP.', 'warning');
+          return;
+        }
+        if (file.size > 10 * 1024 * 1024) {
+          showToast('Ukuran gambar produk maksimal 10 MB.', 'warning');
+          return;
+        }
+        if (state.editRefObjectUrl) URL.revokeObjectURL(state.editRefObjectUrl);
+        state.editRefFile = file;
+        state.editRefObjectUrl = URL.createObjectURL(file);
+        el.editRefPreviewThumb.src = state.editRefObjectUrl;
+        el.editRefFileName.textContent = `${file.name} (${formatBytes(file.size)})`;
+        el.editRefEmptyState.classList.add('hidden');
+        el.editRefPreviewState.classList.remove('hidden');
+        setStep(1);
+      }
+
+      function clearEditRefFile(e) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        if (state.editRefObjectUrl) URL.revokeObjectURL(state.editRefObjectUrl);
+        state.editRefFile = null;
+        state.editRefObjectUrl = '';
+        el.editRefFileInput.value = '';
+        el.editRefPreviewThumb.src = '';
+        el.editRefEmptyState.classList.remove('hidden');
+        el.editRefPreviewState.classList.add('hidden');
+      }
+
+      function setEditRefMode(mode) {
+        state.editRefSourceMode = mode;
+        const isUp = mode === 'upload';
+        el.editRefUploadBox.classList.toggle('hidden', !isUp);
+        el.editRefUrlBox.classList.toggle('hidden', isUp);
+        el.editRefTabUpload.className = isUp
+          ? 'py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition'
+          : 'py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition';
+        el.editRefTabUrl.className = !isUp
+          ? 'py-1.5 text-[11px] font-bold rounded-lg bg-white text-sky-800 shadow-sm transition'
+          : 'py-1.5 text-[11px] font-bold rounded-lg text-slate-600 hover:text-sky-800 transition';
       }
 
       function handleVideoFile(file) {
@@ -3063,6 +3199,27 @@
 
       el.editImgTabUpload.addEventListener('click', () => setEditImgMode('upload'));
       el.editImgTabUrl.addEventListener('click', () => setEditImgMode('url'));
+      el.editRefTabUpload.addEventListener('click', () => setEditRefMode('upload'));
+      el.editRefTabUrl.addEventListener('click', () => setEditRefMode('url'));
+      el.editRefFileInput.addEventListener('change', (e) => handleEditRefFile(e.target.files[0]));
+      el.btnClearEditRef.addEventListener('click', clearEditRefFile);
+      el.editRefDropzone.addEventListener('dragover', (e) => { e.preventDefault(); el.editRefDropzone.classList.add('drag-over'); });
+      el.editRefDropzone.addEventListener('dragleave', () => el.editRefDropzone.classList.remove('drag-over'));
+      el.editRefDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        el.editRefDropzone.classList.remove('drag-over');
+        if (e.dataTransfer.files[0]) handleEditRefFile(e.dataTransfer.files[0]);
+      });
+      el.editRefUrlInput.addEventListener('input', () => {
+        const val = el.editRefUrlInput.value.trim();
+        state.editRefUrl = val;
+        if (/^https?:\/\//i.test(val)) {
+          el.editRefUrlPreview.src = val;
+          el.editRefUrlPreviewWrap.classList.remove('hidden');
+        } else {
+          el.editRefUrlPreviewWrap.classList.add('hidden');
+        }
+      });
 
       el.editImgFileInput.addEventListener('change', (e) => handleEditImageFile(e.target.files[0]));
       el.btnClearEditImg.addEventListener('click', clearEditImageFile);
@@ -3212,9 +3369,11 @@
           renderMusicControlsUI();
         } else {
           clearEditImageFile();
+          clearEditRefFile();
           el.editImgUrlInput.value = '';
           el.editImgUrlPreviewWrap.classList.add('hidden');
           el.editRefUrlInput.value = '';
+          el.editRefUrlPreviewWrap.classList.add('hidden');
           el.seedreamPromptInput.value = '';
           el.seedreamPromptCounter.textContent = '0/2995';
           state.seedreamModel = 'seedream/5-pro-image-to-image';
